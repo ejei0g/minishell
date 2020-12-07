@@ -63,32 +63,31 @@ void	ft_chdir(/*t_stock_str *st*/)
 	}
 	ft_pwd();
 }
-
-void	ft_execve(char **envp)
+void	ft_execve()
 {
 	int fd[2];
-	char *data1[] = {"grep", "PATH", 0};
-	printf("envp = %s\n", envp[0]);
-//	pid_t pid;
-//
-//	pipe(fd);
+	char *data1[] = {"ls", 0};
+	pid_t pid;
 
-//	pid = fork();
-//	if (pid == 0)
-//	{
-		execve("/bin/grep", data1, 0);
-//	}
-//	else
-//	{
-//	printf("hi");
-//	}
-//	printf("exit");
+	pipe(fd);
+
+	pid = fork();
+	if (pid == 0)
+	{
+		execve("/bin/ls", data1, 0);
+	}
+	else
+	{
+	printf("hi");
+	}
+	printf("exit");
 }
 
 void	ft_test()
 {
 	char *s = "vi main.c";
 	char *data[] = {"vi", "main.c", 0};
+	char *data2[] = 
 	//env | grep 
 	//0. 'vim'
 	//1. path 경로 검색 => usr/ /bin /sbin /usr/local
@@ -97,7 +96,7 @@ void	ft_test()
 	//	=> execve('asdfasf', args, 0);
 	//3. 없으면 에러쳐리.
 	// ms.cmd, data= ma.args
-//	execve("/usr/bin/vi", data, 0 );
+	execve("/usr/bin/vi", data, 0 );
 }
 
 void	ft_export(char **envp)
@@ -113,6 +112,7 @@ void	ft_export(char **envp)
 	}
 }
 
+:w
 #define ENVS_SIZE 100000
 char	**ft_envdup(char **envp)
 {
@@ -139,7 +139,7 @@ int main(int argc, char *argv[], char *envp[])
 	int i;
 	t_stock_str ms;
 
-/*
+
 	i = 0;
 	cp_envp = ft_envdup(envp);
 	while (cp_envp[i])
@@ -148,7 +148,7 @@ int main(int argc, char *argv[], char *envp[])
 			printf("%s\n", cp_envp[i]);
 		i++;
 	}
-	printf("hello!\n");*/
+	printf("hello!\n");
 	/*
 	i = 0;
 	while (environ[i])
@@ -185,7 +185,7 @@ int main(int argc, char *argv[], char *envp[])
 		else if (strncmp(line, "cd", 2) == 0)
 			ft_chdir();
 		else if (strncmp(line, "ls", 2) == 0)
-			ft_execve(envp);
+			ft_execve();
 		else if (strncmp(line, "export", 6) == 0)
 			ft_export(envp);
 		else if (strncmp(line, "test", 4) == 0)
