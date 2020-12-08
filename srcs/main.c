@@ -134,22 +134,21 @@ char	**ft_envdup(char **envp)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	//char **cp_envp;
+	char **cp_envp;
 	char *line;
 	int i;
 	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
 	//t_stock_str ms;
 
-/*
-	i = 0;
 	cp_envp = ft_envdup(envp);
+	i = 0;
 	while (cp_envp[i])
 	{
 		if (strncmp(cp_envp[i], "PATH", 4) == 0)
 			printf("%s\n", cp_envp[i]);
 		i++;
 	}
-	printf("hello!\n");*/
+	printf("hello!\n");
 	/*
 	i = 0;
 	while (environ[i])
@@ -167,7 +166,7 @@ int main(int argc, char *argv[], char *envp[])
 		i++;
 	}
 	printf("%s\n", environ[i]);
-// init,초기화할때 환경변수 복사하고 그거 사용하기 
+//	init,초기화할때 환경변수 복사하고 그거 사용하기 
 	*/
 	i = 0;
 	while ((i = get_next_line(0, &line)) > 0)
