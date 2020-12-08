@@ -66,7 +66,7 @@ void	ft_chdir(/*t_stock_str *st*/)
 
 void	ft_execve(char **envp)
 {
-	int fd[2];
+	//int fd_pipe[2];
 	char *data1[] = {"grep", "PATH", 0};
 	printf("envp = %s\n", envp[0]);
 //	pid_t pid;
@@ -87,8 +87,8 @@ void	ft_execve(char **envp)
 
 void	ft_test()
 {
-	char *s = "vi main.c";
-	char *data[] = {"vi", "main.c", 0};
+	//char *s = "vi main.c";
+	//char *data_argv[] = {"vi", "main.c", 0};
 	//env | grep 
 	//0. 'vim'
 	//1. path 경로 검색 => usr/ /bin /sbin /usr/local
@@ -134,10 +134,11 @@ char	**ft_envdup(char **envp)
 
 int main(int argc, char *argv[], char *envp[])
 {
-	char **cp_envp;
+	//char **cp_envp;
 	char *line;
 	int i;
-	t_stock_str ms;
+	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
+	//t_stock_str ms;
 
 /*
 	i = 0;
@@ -168,6 +169,7 @@ int main(int argc, char *argv[], char *envp[])
 	printf("%s\n", environ[i]);
 // init,초기화할때 환경변수 복사하고 그거 사용하기 
 	*/
+	i = 0;
 	while ((i = get_next_line(0, &line)) > 0)
 	{
 //		parsing_line(&st, line);

@@ -6,7 +6,7 @@
 #    By: jaeylee <jaeylee@student.42seoul.kr>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/03/04 19:31:51 by jaeylee           #+#    #+#              #
-#    Updated: 2020/04/17 21:58:13 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/08 15:14:55 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME	= libft.a
 
 CC	= gcc
 
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Wextra -Werror
 
-HEAD	= libft.h
+HEAD	= ./libft
 
 SRCS	= ft_atoi.c	\
 	  ft_bzero.c	\

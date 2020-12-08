@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 03:13:02 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/04/30 01:24:21 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/08 15:15:59 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,12 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*start_ptr;
 	char	*end_ptr;
 	size_t	trim_len;
-	size_t	i;
 
 	if (!s1 || !set)
 		return (NULL);
 	start_ptr = (char *)s1;
 	end_ptr = (char *)s1 + ft_strlen(s1) - 1;
 	trim_len = ft_strlen(s1);
-	i = 0;
 	while (ft_found_char(*start_ptr++, set))
 		trim_len--;
 	start_ptr--;
