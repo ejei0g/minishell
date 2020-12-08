@@ -13,13 +13,14 @@
 #include "get_next_line.h"
 
 typedef struct	s_stock_str {
-	char	*cmd; //command
-	char	**args;//arguments
+	char	args[100000][100000];//arguments
 	//args[0] == cmd; 
 	char	**envs;//enviroments
-	int	p_flag;//pipe flag
-	int	sc_flag;//semicolon flag
-	int	line_index; //line index
+	int		p_flag;//pipe flag
+	int		sc_flag;//semicolon flag
+	int		l_idx; //line index
+	int		sq_flag; // single quarter
+	int		dq_flag; // double quarter
 }		t_stock_str;
 
 #endif
