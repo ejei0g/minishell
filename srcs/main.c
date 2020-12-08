@@ -8,43 +8,27 @@
 #include <string.h>
 #include <stdlib.h>
 #include "get_next_line.h"
+#include "../libft/libft/libft.h"
+
+/*
+ * echo		[]
+ * cd		[o]
+ * pwd		[o]
+ * export	[o]
+ * unset	[]
+ * env		[o]
+ * exit		[o]
+ *
+ */
 
 extern char **environ;
 
-typedef struct s_stock_str {
-	char *cmd;
-	char **arg;
-	char **env; //**env;
-
-}	t_stock_str;
-
 void	ft_pwd(void)
 {
-	char path[1000];
+	char path[10000];
 
-	getcwd(path, 1000);
+	getcwd(path, 10000);
 	printf("%s\n", path);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	temp_s1;
-	unsigned char	temp_s2;
-
-	i = 0;
-	while (i < n && (*(s1 + i) || *(s2 + i)))
-	{
-		if (*(s1 + i) == *(s2 + i))
-			i++;
-		else
-		{
-			temp_s1 = *(s1 + i);
-			temp_s2 = *(s2 + i);
-			return (temp_s1 - temp_s2);
-		}
-	}
-	return (0);
 }
 
 void	ft_chdir(/*t_stock_str *st*/)
@@ -61,23 +45,32 @@ void	ft_chdir(/*t_stock_str *st*/)
 	{
 		printf("After Current directory\n");
 	}
-	ft_pwd();
+	//ft_pwd();
 }
 
 void	ft_execve(char **envp)
 {
-	//int fd_pipe[2];
-	char *data1[] = {"grep", "PATH", 0};
+//	int fd_pipe[2];
+	//char *data1[] = {"grep", "PATH", 0};
+	char *data2[] = {"ls", "-al", 0};
+
 	printf("envp = %s\n", envp[0]);
 //	pid_t pid;
 //
 //	pipe(fd);
 
-//	pid = fork();
-//	if (pid == 0)
-//	{
-		execve("/bin/grep", data1, 0);
-//	}
+	int pid;
+	pid = fork();
+	if (pid == 0)
+	{
+		printf("child\n");
+		execve("/bin/ls", data2, 0);
+	}
+	else
+	{
+		printf("parent\n");
+	}
+	//execve("/bin/grep", data1, 0);
 //	else
 //	{
 //	printf("hi");
@@ -100,12 +93,49 @@ void	ft_test()
 //	execve("/usr/bin/vi", data, 0 );
 }
 
-void	ft_export(char **envp)
+//env
+void	ft_env(char **envp)
 {
 	int i;
 	i = 0;
 	//sorting.
 	///sorting 없으면 envp
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+}
+
+//TODO: 만약 인자가 추가로 들어올 경우 기존envp에 추가해줘야하므로 다른 처리가 필요함.
+void	ft_export(char **envp)
+{
+	int	i;
+	int	max_index;
+	char	*tmp;
+
+	i = 0;
+	max_index = 0;
+	while (envp[max_index])
+	{
+		max_index++;
+	}
+	printf("max index of envp : %d\n", max_index);
+	while (i < max_index - 1)
+	{//TODO: free할 때 메모리 누수 처리가 잘 되었는지 확인 필요.
+		if (ft_strncmp(envp[i], envp[i + 1], ft_strlen(envp[i])) > 0)
+		{
+			//앞에 것과 뒤에것을 비교해서 만약 앞에가 크면 둘이 체인지.
+			tmp = ft_strdup(envp[i]);
+			free(envp[i]);
+			envp[i] = envp[i + 1];
+			envp[i + 1] = tmp;
+			i = 0;
+			//envp[i] = ft_strdup(envp[i + 1]);
+		}
+		i++;
+	}
+	i = 0;
 	while (envp[i])
 	{
 		printf("declare -x %s\n", envp[i]);
@@ -132,42 +162,38 @@ char	**ft_envdup(char **envp)
 	return (cp_envp);
 }
 
+char	*ft_return_value(char **envp, const char *key)
+{
+	char *ret;
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], key, ft_strlen(key)) == 0)
+		{
+			ret = ft_strdup(envp[i]);
+			break;
+		}
+		i++;
+	}
+	return (ret);
+}
+
+//extern char **environ == *envp[]
 int main(int argc, char *argv[], char *envp[])
 {
-	char **cp_envp;
-	char *line;
-	int i;
-	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
+	char	**cp_envp;//환경변수 복사(unset, export로 변수추가하고 기존거에 영향안주기 위해(포크했을 때))
+	char	*line;
+	int	i;
 	//t_stock_str ms;
-
-	cp_envp = ft_envdup(envp);
-	i = 0;
-	while (cp_envp[i])
-	{
-		if (strncmp(cp_envp[i], "PATH", 4) == 0)
-			printf("%s\n", cp_envp[i]);
-		i++;
-	}
-	printf("hello!\n");
-	/*
-	i = 0;
-	while (environ[i])
-	{
-		printf("%s\n", environ[i]);
-		i++;
-	}
-	environ[i] = "hello world!";
-	environ[i][12] = '\0';
-	environ[i + 1] = '\0';
-	i = 0;
-	while (environ[i])
-	{
-		printf("%s\n", environ[i]);
-		i++;
-	}
-	printf("%s\n", environ[i]);
+	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
 //	init,초기화할때 환경변수 복사하고 그거 사용하기 
-	*/
+	cp_envp = ft_envdup(envp);
+
+	printf("%s$", ft_return_value(cp_envp, "USER"));
+
+
 	i = 0;
 	while ((i = get_next_line(0, &line)) > 0)
 	{
@@ -177,19 +203,25 @@ int main(int argc, char *argv[], char *envp[])
 		//3. process
 		//3-1. evc.. expor.. exit
 		//3-1-1 exit
-
+		if (i == 0)
+		{
+			exit(0);
+			free(line);
+		}
 		//parsing(&ms, line);
-		if (strncmp(line, "exit", 4) == 0)
+		if (ft_strncmp(line, "exit", 4) == 0)
 			break ;
-		else if (strncmp(line, "pwd", 3) == 0)
+		else if (ft_strncmp(line, "pwd", 3) == 0)
 			ft_pwd();
-		else if (strncmp(line, "cd", 2) == 0)
+		else if (ft_strncmp(line, "cd", 2) == 0)
 			ft_chdir();
-		else if (strncmp(line, "ls", 2) == 0)
+		else if (ft_strncmp(line, "ls", 2) == 0)
 			ft_execve(envp);
-		else if (strncmp(line, "export", 6) == 0)
-			ft_export(envp);
-		else if (strncmp(line, "test", 4) == 0)
+		else if (ft_strncmp(line, "export", 6) == 0)
+			ft_export(cp_envp);
+		else if (ft_strncmp(line, "env", 3) == 0)
+			ft_env(cp_envp);
+		else if (ft_strncmp(line, "test", 4) == 0)
 			ft_test();
 	}
 	return (0);

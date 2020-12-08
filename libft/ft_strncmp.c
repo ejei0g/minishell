@@ -6,11 +6,12 @@
 /*   By: jaeylee <jaeylee@student.42seoul.kr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 21:21:25 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/04/07 12:22:21 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/08 17:36:32 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

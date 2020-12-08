@@ -11,6 +11,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "get_next_line.h"
+#include "libft.h"
 
 typedef struct	s_stock_str {
 	char	args[100000][100000];//arguments

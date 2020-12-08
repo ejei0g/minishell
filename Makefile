@@ -6,15 +6,15 @@
 #    By: jaeylee <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/08 15:21:11 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/08 17:47:23 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 #FRAMEWORK	=	-framework OpenGL -framework AppKit
-INCS		=	-I./includes -I./libft
+INCS		=	-I./includes -I./libft/libft
 LIBS		=	-lft -L./libft
 LIBFT		=	./libft
 
