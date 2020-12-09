@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "get_next_line.h"
 #include "../libft/libft/libft.h"
+#include "minishell.h"
 
 /*
  * echo		[]
@@ -198,18 +199,20 @@ int main(int argc, char *argv[], char *envp[])
 	char	**cp_envp;//환경변수 복사(unset, export로 변수추가하고 기존거에 영향안주기 위해(포크했을 때))
 	char	*line;
 	int	i;
-	//t_stock_str ms;
-	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
+	t_stock_str ms;
 	i = 0;
+	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
+	cp_envp = ft_envdup(envp);
+	printf("%s$", ft_return_value(cp_envp, "USER"));
+	/*
 	while (envp[i])
 	{
 		printf("i =[%d], %s\n", i, envp[i]);
 		i++;
 	}
 //	init,초기화할때 환경변수 복사하고 그거 사용하기 
-	cp_envp = ft_envdup(envp);
+	*/
 
-	printf("%s$", ft_return_value(cp_envp, "USER"));
 
 
 	i = 0;
@@ -226,20 +229,36 @@ int main(int argc, char *argv[], char *envp[])
 			exit(0);
 			free(line);
 		}
-		//parsing(&ms, line);
-		if (ft_strncmp(line, "exit", 4) == 0)
+		str_init(&ms);
+		parsing(line, &ms);
+
+		int j = 0;
+	
+		//printf("ms.args = %s\n", ms.args[0]);
+		//printf("ms.args = %s\n", ms.args[1]);
+		//printf("ms.args = %s\n", ms.args[2]);
+		printf("\n---------------------\n");
+		while (ms.args[j])
+		{
+			printf("ms.args[%d] = %s\n", j, ms.args[j]);
+			j++;
+		}
+		j = 0;
+		
+		
+		if (ft_strncmp(ms.args[0], "exit", 4) == 0)
 			break ;
-		else if (ft_strncmp(line, "pwd", 3) == 0)
+		else if (ft_strncmp(ms.args[0], "pwd", 3) == 0)
 			ft_pwd();
-		else if (ft_strncmp(line, "cd", 2) == 0)
+		else if (ft_strncmp(ms.args[0], "cd", 2) == 0)
 			ft_chdir();
-		else if (ft_strncmp(line, "ls", 2) == 0)
+		else if (ft_strncmp(ms.args[0], "ls", 2) == 0)
 			ft_execve(envp);
-		else if (ft_strncmp(line, "export", 6) == 0)
+		else if (ft_strncmp(ms.args[0], "export", 6) == 0)
 			ft_export(cp_envp);
-		else if (ft_strncmp(line, "env", 3) == 0)
+		else if (ft_strncmp(ms.args[0], "env", 3) == 0)
 			ft_env(cp_envp);
-		else if (ft_strncmp(line, "test", 4) == 0)
+		else if (ft_strncmp(ms.args[0], "test", 4) == 0)
 			ft_test();
 	}
 	return (0);

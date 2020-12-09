@@ -14,7 +14,8 @@
 #include "libft.h"
 
 typedef struct	s_stock_str {
-	char	args[100000][100000];//arguments
+	//char	*args[10000];//arguments
+	char	**args;//arguments
 	//args[0] == cmd; 
 	char	**envs;//enviroments
 	int		p_flag;//pipe flag
@@ -23,5 +24,10 @@ typedef struct	s_stock_str {
 	int		sq_flag; // single quarter
 	int		dq_flag; // double quarter
 }		t_stock_str;
+
+int     flag_check(t_stock_str *ms, char c);
+int     parsing(char *line, t_stock_str *ms);
+void    str_init(t_stock_str *ms);
+int     flag_check(t_stock_str *ms, char c);
 
 #endif

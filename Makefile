@@ -19,6 +19,7 @@ LIBS		=	-lft -L./libft
 LIBFT		=	./libft
 
 SRCS		=	./srcs/main.c \
+			./srcs/parsing.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c
 #SRCS_BONUS	=	./srcs_bonus/main.c
