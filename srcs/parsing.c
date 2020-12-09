@@ -55,6 +55,17 @@ int	space_check(char *line)
 	return (j);
 }
 
+int	sq_flag_parsing(t_stock_str *ms, char *line, int k)
+{
+	int i;
+
+	i = 0;
+	while (line[ms->l_idx] != '\'')
+		ms->args[k][i++] = line[ms->l_idx++];
+	ms->sq_flag = 0;
+	return (i);
+}
+
 int	parsing(char *line, t_stock_str *ms)
 {
 	int i;
@@ -70,14 +81,16 @@ int	parsing(char *line, t_stock_str *ms)
 	i = 0;
 	ms->args = (char **)malloc(sizeof(char *) * (j + 1));
 	while (i < j)
-		ms->args[i++] = (char *)malloc(sizeof(char) * 10000);
+		ms->args[i++] = (char *)malloc(sizeof(char) * 1000);
 	j = 0;
 	i = 0;
-	write (1, "error\n", 6);
-
 	while (line[ms->l_idx])
 	{
-		if (flag_check(ms, line[ms->l_idx]) == 0)
+		if (ms->sq_flag == 1)
+			j = sq_flag_parsing(ms, line, k);
+		else if (ms->dq_flag == 1)
+			j = sq_flag_parsing(ms, line, k);
+		else if (flag_check(ms, line[ms->l_idx]) == 0)
 			;
 		else if (line[ms->l_idx] != ' ')
 		{
