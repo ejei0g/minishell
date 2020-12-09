@@ -114,6 +114,18 @@ void	ft_export(char **envp)
 	int	max_index;
 	char	*tmp;
 
+	//char	*sample = "x=100 y=\"90\"";
+
+
+
+	/*
+	 *	export 인자가 들어올 경우: 추가제거o
+	 *
+	 *
+	 *
+	 *	인자가 없을 경우 솔팅하고 출력.
+	 */
+
 	i = 0;
 	max_index = 0;
 	while (envp[max_index])
@@ -188,6 +200,12 @@ int main(int argc, char *argv[], char *envp[])
 	int	i;
 	//t_stock_str ms;
 	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
+	i = 0;
+	while (envp[i])
+	{
+		printf("i =[%d], %s\n", i, envp[i]);
+		i++;
+	}
 //	init,초기화할때 환경변수 복사하고 그거 사용하기 
 	cp_envp = ft_envdup(envp);
 
