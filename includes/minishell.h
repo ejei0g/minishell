@@ -26,7 +26,7 @@ typedef struct	s_stock_str {
 }		t_stock_str;
 
 int     flag_check(t_stock_str *ms, char c);
-int     parsing(char *line, t_stock_str *ms);
+int     parsing(char *line, t_stock_str *ms, char **cp_envp);
 void    str_init(t_stock_str *ms);
 int     flag_check(t_stock_str *ms, char c);
 

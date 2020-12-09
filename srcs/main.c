@@ -193,6 +193,17 @@ char	*ft_return_value(char **envp, const char *key)
 	return (ret);
 }
 
+void	args_free(t_stock_str *ms)
+{
+	int i = 0;
+
+	while (ms->args[i])
+	{
+		free(ms->args[i]);
+		i++;
+	}
+	free(ms->args);
+}
 //extern char **environ == *envp[]
 int main(int argc, char *argv[], char *envp[])
 {
@@ -212,9 +223,6 @@ int main(int argc, char *argv[], char *envp[])
 	}
 //	init,초기화할때 환경변수 복사하고 그거 사용하기 
 	*/
-
-
-
 	i = 0;
 	while ((i = get_next_line(0, &line)) > 0)
 	{
@@ -230,7 +238,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(line);
 		}
 		str_init(&ms);
-		parsing(line, &ms);
+		parsing(line, &ms, cp_envp);
 
 		int j = 0;
 	
@@ -244,8 +252,6 @@ int main(int argc, char *argv[], char *envp[])
 			j++;
 		}
 		j = 0;
-		
-		
 		if (ft_strncmp(ms.args[0], "exit", 4) == 0)
 			break ;
 		else if (ft_strncmp(ms.args[0], "pwd", 3) == 0)
@@ -260,6 +266,7 @@ int main(int argc, char *argv[], char *envp[])
 			ft_env(cp_envp);
 		else if (ft_strncmp(ms.args[0], "test", 4) == 0)
 			ft_test();
+		args_free(&ms);
 	}
 	return (0);
 }
