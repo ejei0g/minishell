@@ -177,14 +177,14 @@ int	parsing(char *line, t_stock_str *ms, char **cp_envp)
 	if (strncmp(ms->args[0], "echo", 4) == 0)
 	{
 		int hwyu = 0;
-		printf("\n------------echo----------------\n");
+		printf("\n-------------echo----------------\n");
 		while (ms->args[hwyu])
 		{
 			hwyu++;
 			if (ms->args[hwyu])
 				printf("%s ", ms->args[hwyu]);
 		}
-		printf("\n------------echo----------------\n");
+		printf("\n-------------echo----------------\n");
 	}
 	return (0);
 }
