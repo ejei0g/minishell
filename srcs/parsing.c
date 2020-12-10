@@ -64,6 +64,9 @@ int	sq_flag_parsing(t_stock_str *ms, char *line, int k, int j)
 	ms->sq_flag = 0;
 	return (j);
 }
+
+// "ls'" ok
+// ls' no
 int	dq_flag_parsing(t_stock_str *ms, char *line, int k, char **envp, int i)
 {
 	int j;
@@ -152,6 +155,7 @@ int	parsing(char *line, t_stock_str *ms, char **cp_envp)
 			;
 		else if (line[ms->l_idx] != ' ')
 		{
+			//j = flag_parsing(ms, line, k, cp_envp, j)
 			//printf("line = %c\n", line[ms->l_idx]);
 			if (line[ms->l_idx] == '\\')
 				ms->l_idx++;
