@@ -215,7 +215,7 @@ int main(int argc, char *argv[], char *envp[])
 
 	t_env_list *test;
 	head = init_copy_envp(envp);
-	test = find_env_key(&head, "LESS") ;
+	test = find_env_key(&head, "LESS");
 	printf("%s\n", test->data);
 
 
@@ -247,7 +247,7 @@ int main(int argc, char *argv[], char *envp[])
 			free(line);
 		}
 		str_init(&ms);
-		parsing(line, &ms, cp_envp);
+		parsing(line, &ms, head);
 
 		int j = 0;
 	

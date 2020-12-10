@@ -33,7 +33,7 @@ typedef struct	s_env_list
 }		t_env_list;
 
 int     flag_check(t_stock_str *ms, char c);
-int     parsing(char *line, t_stock_str *ms, char **cp_envp);
+int     parsing(char *line, t_stock_str *ms, t_env_list *head);
 void    str_init(t_stock_str *ms);
 int     flag_check(t_stock_str *ms, char c);
 
