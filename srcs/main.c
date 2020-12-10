@@ -16,10 +16,9 @@
  * cd		[o]
  * pwd		[o]
  * export	[o]
- * unset	[]
+ * unset	[o]
  * env		[o]
  * exit		[o]
- *
  */
 
 extern char **environ;
@@ -210,7 +209,17 @@ int main(int argc, char *argv[], char *envp[])
 	char	**cp_envp;//환경변수 복사(unset, export로 변수추가하고 기존거에 영향안주기 위해(포크했을 때))
 	char	*line;
 	int	i;
+	t_env_list	*head;
 	t_stock_str ms;
+
+
+	t_env_list *test;
+	head = init_copy_envp(envp);
+	test = find_env_key(&head, "LESS") ;
+	printf("%s\n", test->data);
+
+
+
 	i = 0;
 	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
 	cp_envp = ft_envdup(envp);

@@ -6,7 +6,7 @@
 #    By: jaeylee <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/08 17:47:23 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/10 17:26:26 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,8 @@ LIBFT		=	./libft
 
 SRCS		=	./srcs/main.c \
 			./srcs/parsing.c\
+			./srcs/list.c\
+			./srcs/env_list.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c
 #SRCS_BONUS	=	./srcs_bonus/main.c
