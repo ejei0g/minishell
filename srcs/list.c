@@ -32,24 +32,6 @@ void	add_new_node(t_env_list **head, t_env_list *new_node)
 	}
 }
 
-//TODO: printf삭제할 것.
-void	printf_list(t_env_list *head)
-{
-	t_env_list *curr;
-	int i;
-
-	i = 0;
-	curr = head;
-	printf("print start| ============================================\n");
-	while (curr->next)
-	{
-		curr = curr->next;
-		printf("index : %2d | %s\n", i, curr->data);
-		i++;
-	}
-	printf("print end! | ============================================\n");
-}
-
 int	count_lst_size(t_env_list *head)
 {
 	int	count;
@@ -65,6 +47,27 @@ int	count_lst_size(t_env_list *head)
 	return (count);
 }
 
+void	print_env_key(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '=')
+	{
+		if (s[i] == '\0')
+			return ;
+		write(1, &s[i], 1);
+		i++;
+	}
+	write(1, "\"", 1);
+	while (s[i])
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+	write(1, "\"", 1);
+}
+
 void	print_sorting_arr(char **s)
 {
 	int	i;
@@ -76,9 +79,9 @@ void	print_sorting_arr(char **s)
 //export에서 출력도 되면 안되고, 수정도 되서는 안됨. 
 		if(ft_strncmp(s[i], "_=", 2) != 0)
 		{
-			//write(1, cp_envp[i], ft_strlen(cp_envp[i]));
-			//write(1, "\n", 1);
-			printf("index: %d | %s\n",i, s[i]);
+			ft_putstr_fd("declare -x ", 1);
+			print_env_key(s[i]);
+			write(1, "\n", 1);
 		}
 		i++;
 	}
@@ -94,24 +97,32 @@ void	ft_sort_print(char **s)
 	max_index = 0;
 	while (s[max_index])
 		max_index++;
-	printf("max index of cp_envp : %d\n", max_index); //TODO
-	//sorting
 	while (i < max_index - 1)
-	{//TODO: free할 때 메모리 누수 처리가 잘 되었는지 확인 필요.
+	{
 		if (ft_strncmp(s[i], s[i + 1], ft_strlen(s[i])) > 0)
 		{
-			//앞에 것과 뒤에것을 비교해서 만약 앞에가 크면 둘이 체인지.
 			tmp = ft_strdup(s[i]);
 			free(s[i]);
 			s[i] = s[i + 1];
 			s[i + 1] = tmp;
 			i = -1;
-			//cp_envp[i] = ft_strdup(cp_envp[i + 1]);
 		}
 		i++;
 	}
-	//print
 	print_sorting_arr(s);
+}
+
+void	free_cp_envp(char **envp)
+{
+	int	i;
+
+	i = 0;
+	while (envp[i])
+	{
+		free(envp[i]);
+		i++;
+	}
+	free(envp);
 }
 
 void	export_print(t_env_list *head)
@@ -137,6 +148,7 @@ void	export_print(t_env_list *head)
 	//sorting and print
 	ft_sort_print(cp_envp);
 	//free;
+	free_cp_envp(cp_envp);
 }
 
 //delete

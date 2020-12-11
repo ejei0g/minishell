@@ -15,6 +15,7 @@ void	ft_ms_cd(t_stock_str ms)
 	printf("path = %s\n", path);
 	if (chdir(path) == -1)
 		printf("erro\n");//errno
+	write(1, "\n", 1);
 }
 
 void	ft_ms_pwd(void)
@@ -23,6 +24,7 @@ void	ft_ms_pwd(void)
 
 	getcwd(pwd_box, PWD_SIZE);
 	ft_putstr_fd(pwd_box, 1);
+	write(1, "\n", 1);
 }
 
 void	ft_ms_export(t_stock_str ms, t_env_list **env)
@@ -50,6 +52,7 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env)
 			}
 			i++;
 		}
+		write(1, "\n", 1);
 	}
 	return ;
 }
@@ -64,11 +67,20 @@ void	ft_ms_unset(t_stock_str ms, t_env_list **env)
 		delete_node(env, ms.args[i]);
 		i++;
 	}
+	write(1, "\n", 1);
 	return ;
 }
 
 void	ft_ms_env(t_env_list *env)
 {//=이 있는 경우만 출력, 
-	printf_list(env);
+	t_env_list *curr;
+
+	curr = env;
+	while (curr->next)
+	{
+		curr = curr->next;
+		ft_putstr_fd(curr->data, 1);
+		write(1, "\n", 1);
+	}
 	return ;
 }

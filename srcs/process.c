@@ -19,14 +19,14 @@ void	printf_ms(t_stock_str ms)
 	return ;
 }
 
-void	ft_ms_execve(t_stock_str ms, char *s)
+void	ft_ms_execve(t_stock_str ms, char *s, t_env_list *env)
 {
 	int	pid;
 
 	pid = fork();
 	if (pid == 0)
 	{
-	execve(s, ms.args, 0);
+		execve(s, ms.args, 0);
 	}
 	else
 	{
@@ -52,7 +52,7 @@ void	ms_proc(t_stock_str ms, t_env_list **env)
 	else if (ft_strncmp(ms.args[0], "exit", 4) == 0)
 		exit(1);//free + error + extra;
 	else
-		ft_ms_execve(ms, ms.args[0]);
-	printf("\n");
+		ft_ms_execve(ms, ms.args[0], *env);
+//	printf("\n");
 	return ;
 }

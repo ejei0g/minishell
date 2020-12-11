@@ -45,7 +45,6 @@ t_env_list	*create_node(char *data);
 void	add_new_node(t_env_list **head, t_env_list *new_node);
 int	count_lst_size(t_env_list *head);
 
-void	printf_list(t_env_list *head);//나중에 삭제
 
 void	export_print(t_env_list *head);
 void	ft_sort_print(char **s);
