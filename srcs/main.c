@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+extern void print_path(t_env_list **env);
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
@@ -14,6 +16,10 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("argc = %d\n", argc);
 	head = init_copy_envp(envp);
 	ms.last_args = '\0';
+
+	print_path(&head);
+
+	ft_putstr_fd(MINISHELL, 1);
 	while ((i = get_next_line(0, &line)) > 0)
 	{
 		ms.l_idx = 0;
@@ -42,9 +48,10 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("ms->last_args = %s\t", ms.last_args);
 			printf("ms->args_cnt = %d\n", ms.args_cnt);
 			ms_proc(ms, &head);
-			write(1, "finish\n", 7);
+			//write(1, "finish\n", 7);
 			args_free(&ms);
 		}
+		ft_putstr_fd(MINISHELL, 1);
 	}
 	return (0);
 }

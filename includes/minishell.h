@@ -13,6 +13,25 @@
 #include "get_next_line.h"
 #include "libft.h"
 
+#define MINISHELL	"\033[34m 42Seoul@$:\033[0m"
+#define PWD_SIZE	10000
+
+#define ORIGINll	"\033[0m"
+#define RED		"\033[31m"
+#define GREEN		"\033[32m"
+#define YELLOW		"\033[33m"
+#define BLUE		"\033[34m"
+#define PURPLE		"\033[35m"
+#define BLUEGREEN	"\033[36m"
+
+#define ECHO	"echo"
+#define CD	"cd"
+#define PWD	"pwd"
+#define EXPORT	"export"
+#define UNSET	"unset"
+#define ENV	"env"
+#define EXIT	"exit"
+
 typedef struct	s_stock_str {
 	//char	*args[10000];//arguments
 	char	**args;//arguments
@@ -36,41 +55,46 @@ typedef struct	s_env_list
 	struct s_env_list	*prev;
 }		t_env_list;
 
-int     flag_check(t_stock_str *ms, char c);
+/* ==================== *
+ * 	parsing func	*
+ * ==================== */
+
 int     parsing(char *line, t_stock_str *ms, t_env_list *head);
-void    str_init(t_stock_str *ms);
 int     flag_check(t_stock_str *ms, char c);
+void    str_init(t_stock_str *ms);
+void	args_free(t_stock_str *ms);
 
-//----------------env list-, export, env, unset
+/* ==================================== *
+ *	list_func, export, unset, env	*
+ * ==================================== */
 
+t_env_list	*init_copy_envp(char **envp);
 t_env_list	*create_node(char *data);
 void	add_new_node(t_env_list **head, t_env_list *new_node);
-int	count_lst_size(t_env_list *head);
+void	delete_node(t_env_list **head, char *s);
+int	lst_size(t_env_list *head);
+void	free_env_list(t_env_list **env);
 
-
+void	export_add(t_stock_str ms, t_env_list **env);
 void	export_print(t_env_list *head);
 void	ft_sort_print(char **s);
 void	print_sorting_arr(char **s);
+void	free_envp_arr(char **envp);
 
-int	is_env_key(char *env, char *del);
 t_env_list	*find_env_key(t_env_list **head, char *s);
-void	delete_node(t_env_list **head, char *s);
-t_env_list	*init_copy_envp(char **envp);
-//----------------env list-, export, env, unset
-//
-//---------------parsing-----------------------
-//
-void	args_free(t_stock_str *ms);
-//---------------process-----------------------
+int	is_env_key(char *env, char *del);
 
-void	ft_ms_echo(t_stock_str ms);
+/* ==================== *
+ * 	process func	*
+ * ==================== */
+
 void	ms_proc(t_stock_str ms, t_env_list **env);
+void	ft_ms_echo(t_stock_str ms);
 void	ft_ms_cd(t_stock_str ms);
 void	ft_ms_pwd(void);
 void	ft_ms_export(t_stock_str ms, t_env_list **env);
 void	ft_ms_unset(t_stock_str ms, t_env_list **env);
 void	ft_ms_env(t_env_list *env);
-
-
+void	ft_ms_exit(t_env_list **env);
 
 #endif

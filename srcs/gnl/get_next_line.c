@@ -6,25 +6,11 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/25 21:21:35 by hwyu              #+#    #+#             */
-/*   Updated: 2020/12/08 17:44:24 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/12 01:04:49 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-/*
-static size_t		ft_strlen(const char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		i++;
-	}
-	return (i);
-}
-*/
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

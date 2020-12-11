@@ -6,7 +6,7 @@
 #    By: jaeylee <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/11 16:43:00 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/12 01:06:26 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,13 @@ LIBFT		=	./libft
 SRCS		=	./srcs/main.c \
 			./srcs/parsing.c\
 			./srcs/parsing_utils.c\
-			./srcs/list.c\
-			./srcs/env_list.c\
+			./srcs/list_func.c\
+			./srcs/list_utils.c\
 			./srcs/process.c\
 			./srcs/implement.c\
 			./srcs/echo.c\
+			./srcs/export.c\
+			./srcs/exit.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c
 #SRCS_BONUS	=	./srcs_bonus/main.c
@@ -52,4 +54,7 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY	:	all clean fclean re
+leaks:
+	valgrind --leak-check=full --show-leak-kinds=all --error-limit=no ./$(NAME)
+
+.PHONY	:	all clean fclean re leaks

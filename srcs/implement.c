@@ -1,5 +1,4 @@
 #include "minishell.h"
-#define PWD_SIZE 10000
 
 void	ft_ms_cd(t_stock_str ms)
 {
@@ -29,30 +28,12 @@ void	ft_ms_pwd(void)
 
 void	ft_ms_export(t_stock_str ms, t_env_list **env)
 {
-	int	i;
-	t_env_list	*tmp;
-
-	i = 1;
-	//if ms->args 카운터가 1개일 때 나머지
 	if (ms.args_cnt == 0)
-		export_print(*env);//""추가해서 출력
+		export_print(*env);
 	else
 	{
-		while (ms.args[i])
-		{
-			if ((tmp = find_env_key(env, ms.args[i])) != 0)
-			{
-				free(tmp->data);
-				tmp->data = ft_strdup(ms.args[i]);
-			}
-			else
-			{
-				tmp = create_node(ms.args[i]);
-				add_new_node(env, tmp);
-			}
-			i++;
-		}
-		write(1, "\n", 1);
+		export_add(ms, env);
+		write(1, "\n", 1);//TODO:정상작동하는지 체크
 	}
 	return ;
 }
@@ -64,7 +45,17 @@ void	ft_ms_unset(t_stock_str ms, t_env_list **env)
 	i = 1;
 	while (ms.args[i])
 	{
-		delete_node(env, ms.args[i]);
+		//if (ms.args[i][0] == '_' && ms.args[i][1] == '\0')
+		if (ft_strncmp(ms.args[i], "_", ft_strlen(ms.args[i])) == 0)
+			;
+		else if (ft_strchr(ms.args[i], '='))
+		{
+			ft_putstr_fd("bash: unset: '", 1);
+			ft_putstr_fd(ms.args[i], 1);
+			ft_putstr_fd("': not a valid identifier", 1);
+		}
+		else
+			delete_node(env, ms.args[i]);
 		i++;
 	}
 	write(1, "\n", 1);
@@ -72,15 +63,18 @@ void	ft_ms_unset(t_stock_str ms, t_env_list **env)
 }
 
 void	ft_ms_env(t_env_list *env)
-{//=이 있는 경우만 출력, 
+{
 	t_env_list *curr;
 
 	curr = env;
 	while (curr->next)
 	{
 		curr = curr->next;
-		ft_putstr_fd(curr->data, 1);
-		write(1, "\n", 1);
+		if (ft_strchr(curr->data, '='))
+		{
+			ft_putstr_fd(curr->data, 1);
+			write(1, "\n", 1);
+		}
 	}
 	return ;
 }
