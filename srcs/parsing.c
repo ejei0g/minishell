@@ -18,23 +18,8 @@ int	flag_check(t_stock_str *ms, char c)
 }
 void	str_init(t_stock_str *ms)
 {
-//	int i;
-//	int j;
-
-//	i = 0;
-	/*while (ms->args[i])
-	{
-		j = 0;
-		while (ms->args[i][j])
-		{
-			ms->args[i][j] = '\0';
-			j++;
-		}
-		i++;
-	}*/
 	ms->p_flag = 0;//pipe flag
 	ms->sc_flag = 0;//semicolon flag
-	ms->l_idx = 0; //line index
 	ms->sq_flag = 0; // single quarter
 	ms->dq_flag = 0; // double quarter
 }
