@@ -8,10 +8,10 @@ int	flag_check(t_stock_str *ms, char c)
 		ms->sq_flag = 1;
 	else if (c == '\"')
 		ms->dq_flag = 1;
-	else if (c == ';')
+/*	else if (c == ';')
 		ms->sc_flag = 1;
 	else if (c == '|')
-		ms->p_flag = 1;
+		ms->p_flag = 1;*/
 	else
 		return (1);
 	return (0);
@@ -147,7 +147,7 @@ int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 		ms->l_idx++;
 		brace = 1;
 	}
-	while ((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_' || line[ms->l_idx] == '=')
+	while ((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_')
 	{
 		a[j] = line[ms->l_idx];
 		j++;
@@ -176,6 +176,7 @@ int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 			hwyu++;
 		}
 	}
+	ms->l_idx--;
 	return (i);
 }
 
@@ -216,6 +217,22 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 				ms->args[k][j] = line[ms->l_idx];
 				j++;
 			}
+			else if (line[ms->l_idx] == '|')
+			{
+				ms->p_flag = 1;
+				ms->l_idx++;
+				while (line[ms->l_idx] == ' ')
+					ms->l_idx++;
+				break ;
+			}
+			else if (line[ms->l_idx] == ';')
+			{
+				ms->sc_flag = 1;
+				ms->l_idx++;
+				while (line[ms->l_idx] == ' ')
+					ms->l_idx++;
+				break ;
+			}
 			else if (line[ms->l_idx] == '$')
 				j = dollor_parsing(ms, line, k, j, head);
 			else
@@ -229,7 +246,9 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 			ms->args[k][j] = '\0';
 			while (line[ms->l_idx + 1] == ' ')
 				ms->l_idx++;
-			if (line[ms->l_idx + 1] != '\0')
+			if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';')
+				;
+				else if (line[ms->l_idx + 1] != '\0')
 			{
 				j = 0;
 				k++;
@@ -251,6 +270,12 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 				printf("%s ", ms->args[hwyu]);
 		}
 		printf("\n-------------echo----------------\n");
+		printf("p_flag = %d\n", ms->p_flag);
+		printf("sc_flag = %d\n", ms->sc_flag);
+		printf("l_idx = %d\n", ms->l_idx);
+		printf("sq_flag = %d\n", ms->sq_flag);
+		printf("dq_flag = %d\n", ms->dq_flag);
+		printf("ms->l_idx = %c\n", line[ms->l_idx]);
 	}
 	return (0);
 }
