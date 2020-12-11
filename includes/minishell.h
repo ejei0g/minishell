@@ -16,6 +16,8 @@
 typedef struct	s_stock_str {
 	//char	*args[10000];//arguments
 	char	**args;//arguments
+
+	int	args_cnt;//args count;
 	//args[0] == cmd; 
 	char	**envs;//enviroments
 	int		p_flag;//pipe flag
@@ -54,5 +56,19 @@ t_env_list	*find_env_key(t_env_list **head, char *s);
 void	delete_node(t_env_list **head, char *s);
 t_env_list	*init_copy_envp(char **envp);
 //----------------env list-, export, env, unset
+//
+//---------------parsing-----------------------
+//
+void	args_free(t_stock_str *ms);
+//---------------process-----------------------
+
+void	ms_proc(t_stock_str ms, t_env_list **env);
+void	ft_ms_cd(t_stock_str ms);
+void	ft_ms_pwd(void);
+void	ft_ms_export(t_stock_str ms, t_env_list **env);
+void	ft_ms_unset(t_stock_str ms, t_env_list **env);
+void	ft_ms_env(t_env_list *env);
+
+
 
 #endif
