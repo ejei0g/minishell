@@ -9,11 +9,14 @@ int	main(int argc, char *argv[], char *envp[])
 	t_stock_str ms;
 
 	i = 0;
+	ms.argv = argv;
+	ms.argc = argc;
+	printf("argc = %d\n", argc);
 	head = init_copy_envp(envp);
-	printf("argc : %d, argv[0] : %s\n", argc, argv[0]);
-	ms.l_idx = 0;
+	ms.last_args = '\0';
 	while ((i = get_next_line(0, &line)) > 0)
 	{
+		ms.l_idx = 0;
 		while (line[ms.l_idx] != '\0')
 		{
 			str_init(&ms);
@@ -23,7 +26,6 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
-	
 			printf("\n---------------------\n");
 			j = 0;
 			while (ms.args[j])
@@ -31,7 +33,16 @@ int	main(int argc, char *argv[], char *envp[])
 				printf("ms.args[%d] = %s\n", j, ms.args[j]);
 				j++;
 			}
+		       	printf("p_flag = %d\t", ms.p_flag);
+			printf("sc_flag = %d\t", ms.sc_flag);
+			printf("l_idx = %d\n", ms.l_idx);
+			printf("sq_flag = %d\t", ms.sq_flag);
+			printf("dq_flag = %d\t", ms.dq_flag);
+			printf("ms->l_idx = %c\n", line[ms.l_idx]);
+			printf("ms->last_args = %s\t", ms.last_args);
+			printf("ms->args_cnt = %d\n", ms.args_cnt);
 			ms_proc(ms, &head);
+			write(1, "finish\n", 7);
 			args_free(&ms);
 		}
 	}

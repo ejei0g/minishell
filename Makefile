@@ -25,6 +25,7 @@ SRCS		=	./srcs/main.c \
 			./srcs/env_list.c\
 			./srcs/process.c\
 			./srcs/implement.c\
+			./srcs/echo.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c
 #SRCS_BONUS	=	./srcs_bonus/main.c

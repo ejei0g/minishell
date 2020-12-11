@@ -127,6 +127,14 @@ int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 	brace = 0;
 	j = 0;
 	ms->l_idx++;
+	if (!((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_'))
+	{
+		ms->args[k][i] = '$';
+		printf("i = %d\n", i);
+		i++;
+		ms->l_idx--;
+		return (i);
+	}
 	if (line[ms->l_idx] == '{')
 	{
 		ms->l_idx++;
@@ -241,10 +249,11 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 		}
 		ms->l_idx++;
 	}
+	ms->args_cnt = k;
 	ms->args[k][j] = '\0';
+	ms->last_args = ft_strdup(ms->args[k]);
 	ms->args[k + 1] = '\0';
-	
-	if (strncmp(ms->args[0], "echo", 4) == 0)
+	/*if (strncmp(ms->args[0], "echo", 4) == 0)
 	{
 		int hwyu = 0;
 		printf("\n-------------echo----------------\n");
@@ -261,6 +270,6 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 		printf("sq_flag = %d\n", ms->sq_flag);
 		printf("dq_flag = %d\n", ms->dq_flag);
 		printf("ms->l_idx = %c\n", line[ms->l_idx]);
-	}
+	}*/
 	return (0);
 }

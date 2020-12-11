@@ -34,7 +34,7 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env)
 
 	i = 1;
 	//if ms->args 카운터가 1개일 때 나머지
-	if (1)//ms.count == 1
+	if (ms.args_cnt == 0)
 		export_print(*env);//""추가해서 출력
 	else
 	{

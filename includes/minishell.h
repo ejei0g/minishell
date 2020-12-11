@@ -16,7 +16,9 @@
 typedef struct	s_stock_str {
 	//char	*args[10000];//arguments
 	char	**args;//arguments
-
+	char	*last_args;
+	int	argc;
+	char	**argv;
 	int	args_cnt;//args count;
 	//args[0] == cmd; 
 	char	**envs;//enviroments
@@ -61,6 +63,7 @@ t_env_list	*init_copy_envp(char **envp);
 void	args_free(t_stock_str *ms);
 //---------------process-----------------------
 
+void	ft_ms_echo(t_stock_str ms);
 void	ms_proc(t_stock_str ms, t_env_list **env);
 void	ft_ms_cd(t_stock_str ms);
 void	ft_ms_pwd(void);

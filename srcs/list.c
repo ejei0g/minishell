@@ -59,6 +59,7 @@ void	print_env_key(char *s)
 		write(1, &s[i], 1);
 		i++;
 	}
+	write(1, &s[i++], 1);
 	write(1, "\"", 1);
 	while (s[i])
 	{
