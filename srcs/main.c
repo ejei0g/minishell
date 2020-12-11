@@ -21,7 +21,6 @@ int	main(int argc, char *argv[], char *envp[])
 		str_init(&ms);
 		parsing(line, &ms, head);
 
-
 		printf("\n---------------------\n");
 		j = 0;
 		while (ms.args[j])
