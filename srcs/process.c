@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*make_apsolute_path(char const *s1, char const *s2)
+char	*make_full_path(char const *s1, char const *s2)
 {
 	char			*joined_str;
 	unsigned int	jstr_len;
@@ -20,8 +20,21 @@ char	*make_apsolute_path(char const *s1, char const *s2)
 	return (joined_str - jstr_len);
 }
 
+int	is_cmd(char *s1, char *s2)
+{
+	int	count;
+
+	if (ft_strlen(s1) > ft_strlen(s2))
+		count = ft_strlen(s1);
+	else
+		count = ft_strlen(s2);
+	if (ft_strncmp(s1, s2, count) == 0)
+		return (1);
+	return (0);
+}
+
 //full path malloc
-void	find_file_name(char *path)
+char	*find_file_name(char *path, char *file_name)
 {
 	DIR		*dp;
 	struct dirent	*entry;
@@ -31,10 +44,22 @@ void	find_file_name(char *path)
 	if ((dp = opendir(path)) == NULL)
 	{
 		ft_putstr_fd(strerror(errno), 1);
-		return ;
+		return (NULL);
 	}
 	while ((entry = readdir(dp)) != NULL)
 	{
+		if (is_cmd(file_name, entry->d_name))
+		{
+			full_path = make_full_path(path, entry->d_name);
+			lstat(full_path, &buf);
+			if (S_ISREG(buf.st_mode))
+			{
+				closedir(dp);
+				return (full_path);
+			}
+			free(full_path);
+		}
+		/*
 		full_path = make_apsolute_path(path, entry->d_name);
 		lstat(full_path, &buf);
 		//printf("%d ", buf.st_mode);
@@ -46,9 +71,10 @@ void	find_file_name(char *path)
 		}
 		//ft_putstr_fd(full_path, 1);
 		free(full_path);
+		*/
 	}
 	closedir(dp);
-	return ;
+	return (0);
 }
 
 void	print_path(t_env_list **env)
@@ -60,60 +86,102 @@ void	print_path(t_env_list **env)
 	printf("%s\n", path->data + 5);
 	paths = ft_split(path->data + 5, ':');
 
-
-	//dir 열고
-	//정보 읽고
-	// dir 닫고
 	int i;
 	i = 0;
 	while (paths[i])
 	{
 		printf("%s%s%s\n", BLUE, paths[i], ORIGIN);
-		find_file_name(paths[i]);
 		i++;
 	}
 	//paths free;
 	free_envp_arr(paths);
 }
 
-void	ft_ms_execve(t_stock_str ms, char *s, t_env_list *env)
+char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
+{
+	char	*file;
+	t_env_list *path;
+	char	**paths;
+	int	i;
+
+	path = find_env_key(env, "PATH");
+	paths = ft_split(path->data + 5, ':');
+	while (paths[i])
+	{
+		if ((file = find_file_name(paths[i], ms.args[0])) != NULL)
+		{
+			free_envp_arr(paths);
+			return (file);
+		}
+		i++;
+	}
+	free_envp_arr(paths);
+	return (NULL);
+}
+
+void	ft_ms_execve(t_stock_str ms, char *file)
 {
 	int	pid;
-	t_env_list	*tmp;
 
-	tmp = env;
-	printf("%s\n", "start fork\n");
 	pid = fork();
-	printf("%s\n", tmp->data);
 	if (pid == 0)
 	{
-		printf("i'm a child\n");
-		execve(s, ms.args, 0);
+		execve(file, ms.args, 0);
+		write(1, "\n", 1);
 	}
 	else
 	{
-		printf("i'm a parent\n");
-		//wait();
+		//wait(1);
+	}
+	//write(1, "\n", 1);
+}
+
+void	ft_ms_else(t_stock_str ms, t_env_list **env)
+{
+	char	*file; //full path
+
+	if ((file = chk_file_in_path(ms, env)) != NULL)
+	{
+		//execve
+		ft_ms_execve(ms, file);
+	}
+	else
+	{
+		ft_putstr_fd(ms.args[0], 1);
+		ft_putstr_fd(": command not found\n", 1);
+		//free?
+		return ;
 	}
 }
 
+/**
+ *  1. 명령어 예외가 들어왔을 때
+ *  2. file_name vs PATH file
+ *  3. 1. PATH split
+ *  	2. 전체탐색.
+ *  	3.-1 없으면 종료
+ *  	3-2 있으면 전체경로 전달하고 execve
+ *  4. 조건이 맞으면 fork로 execve 실행
+ *
+ */
+
 void	ms_proc(t_stock_str ms, t_env_list **env)
 {
-	if (ft_strncmp(ms.args[0], ECHO, 4) == 0)
+	if (is_cmd(ms.args[0], ECHO))
 		ft_ms_echo(ms);
-	else if (ft_strncmp(ms.args[0], CD, 2) == 0)
+	else if (is_cmd(ms.args[0], CD))
 		ft_ms_cd(ms);
-	else if (ft_strncmp(ms.args[0], PWD, 3) == 0)
+	else if (is_cmd(ms.args[0], PWD))
 		ft_ms_pwd();
-	else if (ft_strncmp(ms.args[0], EXPORT, 6) == 0)
+	else if (is_cmd(ms.args[0], EXPORT))
 		ft_ms_export(ms, env);
-	else if (ft_strncmp(ms.args[0], UNSET, 5) == 0)
+	else if (is_cmd(ms.args[0], UNSET))
 		ft_ms_unset(ms, env);
-	else if (ft_strncmp(ms.args[0], ENV, 3) == 0)
+	else if (is_cmd(ms.args[0], ENV))
 		ft_ms_env(*env);
-	else if (ft_strncmp(ms.args[0], EXIT, 4) == 0)
+	else if (is_cmd(ms.args[0], EXIT))
 		ft_ms_exit(env);
-	//else
-	//	ft_ms_execve(ms, ms.args[0], *env);
+	else
+		ft_ms_else(ms, env);
 	return ;
 }
