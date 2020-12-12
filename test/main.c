@@ -54,6 +54,9 @@ int	main(int argc, char **argv, char **envp)
 	struct dirent *entry = NULL;
 	struct stat buf;
 
+	//printf("%s\n",  strerror(127));
+	print_strerr();
+
 	// Q2? 경로와 현재위치가 다를경우 제대로된 파일/디렉토리 구분을 해주지 못함.
 	if ((dp = opendir("/home/jaeylee/")) == NULL)
 	{
