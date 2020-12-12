@@ -22,6 +22,7 @@ int	main(int argc, char *argv[], char *envp[])
 	ft_putstr_fd(MINISHELL, 1);
 	while ((i = get_next_line(0, &line)) > 0)
 	{
+		
 		ms.l_idx = 0;
 		while (line[ms.l_idx] != '\0')
 		{
@@ -52,6 +53,8 @@ int	main(int argc, char *argv[], char *envp[])
 			args_free(&ms);
 		}
 		ft_putstr_fd(MINISHELL, 1);
+		free(line);
 	}
+	free(line);
 	return (0);
 }

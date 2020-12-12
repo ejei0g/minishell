@@ -18,6 +18,8 @@ int	flag_check(t_stock_str *ms, char c)
 }
 void	str_init(t_stock_str *ms)
 {
+	ms->w = 0;
+	ms->h = 0;
 	ms->p_flag = 0;//pipe flag
 	ms->sc_flag = 0;//semicolon flag
 	ms->sq_flag = 0; // single quarter
@@ -42,17 +44,16 @@ int	space_check(char *line)
 	return (j);
 }
 
-int	sq_flag_parsing(t_stock_str *ms, char *line, int k, int j)
+void	sq_flag_parsing(t_stock_str *ms, char *line)
 {
 	while (line[ms->l_idx] != '\'')
-		ms->args[k][j++] = line[ms->l_idx++];
+		ms->args[ms->h][ms->w++] = line[ms->l_idx++];
 	ms->sq_flag = 0;
-	return (j);
 }
 
 // "ls'" ok
 // ls' no
-int	dq_flag_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
+void	dq_flag_parsing(t_stock_str *ms, char *line, t_env_list *head)
 {
 	int j;
 	char a[100];
@@ -65,7 +66,7 @@ int	dq_flag_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 		if (line[ms->l_idx] == '\\')
 		{
 			ms->l_idx++;
-			ms->args[k][i++] = line[ms->l_idx++];
+			ms->args[ms->h][ms->w++] = line[ms->l_idx++];
 		}
 		else if (line[ms->l_idx] == '$')
 		{
@@ -106,46 +107,85 @@ int	dq_flag_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 				{
 			//		printf("i = %d\n", i);
 			//		printf("envp = %c\n", envp[1][hwyu]);
-					ms->args[k][i] = test->data[hwyu];
-					i++;
+					ms->args[ms->h][ms->w] = test->data[hwyu];
+					ms->w++;
 					hwyu++;
 				}
 			}
 		}
 		else
-			ms->args[k][i++] = line[ms->l_idx++];
+			ms->args[ms->h][ms->w++] = line[ms->l_idx++];
 	}
 	ms->dq_flag = 0;
-	return (i);
 }
-int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
+
+void	argv_parsing(t_stock_str *ms, int i)
+{
+	int j;
+
+	j = 0;
+	if (ms->argv[i] == NULL)
+		return ;
+	while (ms->argv[i][j])
+		ms->args[ms->h][ms->w++] = ms->argv[i][j++];
+	return ;
+}
+void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head)
 {
 	int brace;
+	int i;
 	int j;
 	char a[100];
 
 	brace = 0;
 	j = 0;
 	ms->l_idx++;
-	if (!((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_'))
+	if (line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9')
 	{
-		ms->args[k][i] = '$';
-		printf("i = %d\n", i);
-		i++;
-		ms->l_idx--;
-		return (i);
+		i = line[ms->l_idx] - 48;
+		argv_parsing(ms, i);
+		return ;
+	}
+	else if (line[ms->l_idx] == '#')
+	{
+		ms->args[ms->h][ms->w] = ms->argc + 48 - 1;
+		return ;
+	}
+	i = 1;
+	if (line[ms->l_idx] == '*' || line[ms->l_idx] == '@')
+	{
+		while (i < ms->argc)
+		{
+			argv_parsing(ms, i);
+			i++;
+			if (ms->argv[i] == NULL)
+				return ;
+			ms->args[ms->h][ms->w] = '\0';
+			ms->h++;
+			ms->w = 0;
+		}
+		return ;
 	}
 	if (line[ms->l_idx] == '{')
 	{
 		ms->l_idx++;
 		brace = 1;
 	}
+	else if (!((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_'))
+	{
+		ms->args[ms->h][ms->w] = '$';
+		ms->w++;
+		ms->l_idx--;
+		return ;
+	}
+	printf("line[ms->l_idx] = %c\n", line[ms->l_idx]);
 	while ((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') || (line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_')
 	{
 		a[j] = line[ms->l_idx];
 		j++;
 		ms->l_idx++;
 	}
+	printf("line[ms->l_idx] = %c\n", line[ms->l_idx]);
 	if (brace == 1)
 	{
 		while (line[ms->l_idx] != '}')
@@ -153,6 +193,7 @@ int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 		if (line[ms->l_idx] == '}')
 			ms->l_idx++;
 	}
+	printf("line[ms->l_idx] = %c\n", line[ms->l_idx]);
 	a[j] = '\0';
 	t_env_list *test;
 	test = find_env_key(&head, a);
@@ -164,40 +205,34 @@ int	dollor_parsing(t_stock_str *ms, char *line, int k, int i, t_env_list *head)
 		hwyu++;
 		while (test->data[hwyu])
 		{
-			ms->args[k][i] = test->data[hwyu];
-			i++;
+			ms->args[ms->h][ms->w] = test->data[hwyu];
+			ms->w++;
 			hwyu++;
 		}
 	}
 	ms->l_idx--;
-	return (i);
 }
 
 int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 {
 	int i;
 	int j;
-	int k;
 	// env " asdad"
 	i = 0;
-	j = 0;
-	k = 0;
-
 	j = 1 + space_check(line);
 	//printf("hello\n");
 	i = 0;
 	printf("head = %s\n", head->next->data);
-	ms->args = (char **)malloc(sizeof(char *) * (j + 1));
-	while (i < j)
+	ms->args = (char **)malloc(sizeof(char *) * (j + 1 + ms->argc));
+	while (i < j + ms->argc)
 		ms->args[i++] = (char *)malloc(sizeof(char) * 1000);
-	j = 0;
 	i = 0;
 	while (line[ms->l_idx])
 	{
 		if (ms->sq_flag == 1)
-			j = sq_flag_parsing(ms, line, k, j);
+			sq_flag_parsing(ms, line);
 		else if (ms->dq_flag == 1)
-			j = dq_flag_parsing(ms, line, k, j, head);
+			dq_flag_parsing(ms, line, head);
 		else if (flag_check(ms, line[ms->l_idx]) == 0)
 			;
 		else if (line[ms->l_idx] != ' ')
@@ -207,8 +242,8 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 			if (line[ms->l_idx] == '\\')
 			{
 				ms->l_idx++;
-				ms->args[k][j] = line[ms->l_idx];
-				j++;
+				ms->args[ms->h][ms->w] = line[ms->l_idx];
+				ms->w++;
 			}
 			else if (line[ms->l_idx] == '|')
 			{
@@ -227,32 +262,33 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 				break ;
 			}
 			else if (line[ms->l_idx] == '$')
-				j = dollor_parsing(ms, line, k, j, head);
+				dollor_parsing(ms, line, head);
 			else
 			{
-				ms->args[k][j] = line[ms->l_idx];
-				j++;
+				ms->args[ms->h][ms->w] = line[ms->l_idx];
+				ms->w++;
 			}
 		}
 		else if (line[ms->l_idx] == ' ')
 		{
-			ms->args[k][j] = '\0';
+			ms->args[ms->h][ms->w] = '\0';
 			while (line[ms->l_idx + 1] == ' ')
 				ms->l_idx++;
 			if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';')
 				;
 				else if (line[ms->l_idx + 1] != '\0')
 			{
-				j = 0;
-				k++;
+				ms->w = 0;
+				ms->h++;
 			}
 		}
 		ms->l_idx++;
 	}
-	ms->args_cnt = k;
-	ms->args[k][j] = '\0';
-	ms->last_args = ft_strdup(ms->args[k]);
-	ms->args[k + 1] = '\0';
+	write(1, "asdjasd\n", 8);
+	ms->args_cnt = ms->h;
+	ms->args[ms->h][ms->w] = '\0';
+	ms->last_args = ft_strdup(ms->args[ms->h]);
+	ms->args[ms->h + 1] = '\0';
 	/*if (strncmp(ms->args[0], "echo", 4) == 0)
 	{
 		int hwyu = 0;

@@ -36,6 +36,8 @@ typedef struct	s_stock_str {
 	//char	*args[10000];//arguments
 	char	**args;//arguments
 	char	*last_args;
+	int	w; // args_width
+	int	h; // args_height
 	int	argc;
 	char	**argv;
 	int	args_cnt;//args count;
