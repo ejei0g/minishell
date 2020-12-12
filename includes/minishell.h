@@ -16,7 +16,7 @@
 #define MINISHELL	"\033[34m 42Seoul@$:\033[0m"
 #define PWD_SIZE	10000
 
-#define ORIGINll	"\033[0m"
+#define ORIGIN		"\033[0m"
 #define RED		"\033[31m"
 #define GREEN		"\033[32m"
 #define YELLOW		"\033[33m"

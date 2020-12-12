@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 void	print_env_key(char *s)
 {
 	int	i;
