@@ -21,6 +21,7 @@ void	str_init(t_stock_str *ms)
 	ms->sc_flag = 0;//semicolon flag
 	ms->sq_flag = 0; // single quarter
 	ms->dq_flag = 0; // double quarter
+	ms->null_flag = 0;
 }
 
 int	space_check(char *line)
@@ -183,6 +184,31 @@ void	argv_parsing(t_stock_str *ms, int i)
 	return ;
 }
 
+int	null_flag(t_stock_str *ms, char *line)
+{
+	int i;
+
+	if (ft_strncmp(ms->args[0], "echo", 4) != 0)
+		return (-1);
+	i = ms->l_idx;
+	ms->l_idx++;
+	if (line[ms->l_idx] == '-' && line[ms->l_idx + 1] == 'n')
+	{
+		ms->l_idx++;
+		while (line[ms->l_idx] == 'n')
+			ms->l_idx++;
+		printf("111111ms->%c\n", line[ms->l_idx]);
+		if (line[ms->l_idx] == ' ' || line[ms->l_idx] == '\0')
+		{
+			ms->null_flag = 1;
+			printf("asd null_flag \n");
+			return (0);
+		}
+	}
+	ms->l_idx = i;
+	return (-1);
+}
+
 int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 {
 	int i;
@@ -195,6 +221,8 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 	i = 0;
 	while (line[ms->l_idx])
 	{
+	//	if (null_flag(ms, line) == 0)
+	//		;
 		if (ms->sq_flag == 1)
 			sq_flag_parsing(ms, line);
 		else if (ms->dq_flag == 1)
@@ -238,9 +266,12 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 			ms->args[ms->h][ms->w] = '\0';
 			while (line[ms->l_idx + 1] == ' ')
 				ms->l_idx++;
+			null_flag(ms, line);
+			while (line[ms->l_idx + 1] == ' ')
+				ms->l_idx++;
 			if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';')
 				;
-				else if (line[ms->l_idx + 1] != '\0')
+			else if (line[ms->l_idx + 1] != '\0')
 			{
 				ms->w = 0;
 				ms->h++;

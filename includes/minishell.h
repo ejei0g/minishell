@@ -48,6 +48,7 @@ typedef struct	s_stock_str {
 	int		l_idx; //line index
 	int		sq_flag; // single quarter
 	int		dq_flag; // double quarter
+	int		null_flag;
 }		t_stock_str;
 
 typedef struct	s_env_list
