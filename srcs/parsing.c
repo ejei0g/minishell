@@ -226,6 +226,7 @@ void	redirect_parsing(t_stock_str *ms, char *line)
 
 	i = 0;
 	cp_l_idx = 0;
+	printf("redirecion\n");
 //	fd_copy = fd;
 	if (line[ms->l_idx] == '>' && line[ms->l_idx + 1] == '>')
 	{
@@ -249,6 +250,8 @@ void	redirect_parsing(t_stock_str *ms, char *line)
 		filename[i++] = line[ms->l_idx++];
 	filename[i] = '\0';
 	ms->file_name = ft_strdup(filename);
+	if (ft_strncmp(ms->args[0], "echo", 4) == 0)
+		return ;
 	if (rdir_flag == 1)
 		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_APPEND);
 	if (rdir_flag == 2)
@@ -278,7 +281,7 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 	i = 0;
 	while (line[ms->l_idx])
 	{
-		printf("line = %c\n", line[ms->l_idx]);
+	//	printf("line = %c\n", line[ms->l_idx]);
 	//	if (null_flag(ms, line) == 0)
 	//		;
 		if (ms->sq_flag == 1)
