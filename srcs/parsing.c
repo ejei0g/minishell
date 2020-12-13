@@ -249,8 +249,12 @@ void	redirect_parsing(t_stock_str *ms, char *line)
 		filename[i++] = line[ms->l_idx++];
 	filename[i] = '\0';
 	ms->file_name = ft_strdup(filename);
-	if (rdir_flag == 2 || rdir_flag == 3)
+	if (rdir_flag == 1)
+		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_APPEND);
+	if (rdir_flag == 2)
 		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (rdir_flag == 3)
+		fd = open(ms->file_name, O_RDONLY);
 	if (rdir_flag == 3)
 	{
 		dup2(fd, STDIN_FILENO);
