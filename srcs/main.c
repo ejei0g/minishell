@@ -1,6 +1,7 @@
 #include "minishell.h"
 
 extern void print_path(t_env_list **env);
+extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line);
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -34,6 +35,12 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
+			if (ms.p_flag)
+			{
+				pipe_process(&ms, &head, line);
+				args_free(&ms);
+				break;
+			}
 			printf("\n---------------------\n");
 			j = 0;
 			while (ms.args[j])

@@ -1,87 +1,73 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <sys/types.h>
+#include "minishell.h"
 #include <sys/wait.h>
 
-//#include "minishell.h"
-
-#define MAX_BUF 1024
 #define READ 0
 #define WRITE 1
 
-//int pipe_process(t_stock_str ms, t_env_list **head);
-	/**
-	 * if pipe 1
-	 *
-	 * gnl
-	 * 	line 111
-	 * 	{
-	 * 		parsing
-	 * 		if (pipe on)
-	 * 		{
-	 * 			go process2
-	 * 		}
-	 * 		process
-	 * 		free
-	 * 	}
-	 */
-
-int	main(void)
+static int	printf_err()
 {
-	char *ls[3] = {"ls", "-al", 0};
-	char *grep[3] = { "grep", "list", 0};
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	return (-1);
+}
 
+int	pipe_process(t_stock_str *ms, t_env_list **head, char *line)
+{
 	int	fd[2];
 	pid_t	pid;
-	int	fd_stdout;
-	int	status;
-	int	dup_ret;
+//	int	status;
+
+	//int	fd_stdout = dup(STDOUT_FILENO);
+	//int	fd_stdin = dup(STDIN_FILENO);
 
 	if (pipe(fd) < 0)
-	{
-		printf("pipe error\n");
-		return (-1);
-	}
+		return (printf_err());
 	if ((pid = fork()) < 0)
+		return (printf_err());
+	/*
+	if (pid == 0)
 	{
-		printf("fork error\n");
-		return (-1);
+		ms_proc(*ms, head);
+
 	}
-	/**
-	 *  0 : STDIN_FILENO
-	 *  1 : STDOUT_FILENO
-	 *  2 : STDERR_FILENO
-	 */
-	/**
-	 * fd[0] = read; //3
-	 * fd[1] = write;//4
-	 */
-
-	//fd_stdout = dup(STDOUT_FILENO);
-
-	char buf[1000];
+	else
+	{
+		//wait(&status);
+		sleep(2);
+		printf("%s\n", line);
+	}
+	*/
 	if (pid > 0)
 	{
-		//parsing
-		//if (pipe on)
-		//{
-		// 	go	process2
-		//}
-		//process
-		wait(&status);
-		dup_ret = dup2(fd[0], STDIN_FILENO);
-		execve("/bin/grep", grep, 0);
+	//	wait(&status);
+
+		sleep(1);
+		printf("hello\n");
+
+		//if (line[ms->l_idx] == '\0')
+		//	return (0);
+		//printf("l_idx = %d\n", ms->l_idx);
+		args_free(ms);
+		str_init(ms);
+		//printf("l_idx = %d\n", ms->l_idx);
+		parsing(line, ms, *head);
+		printf("cmd : %s\n", ms->args[0]);
+		if (ms->p_flag)
+		{
+			pipe_process(ms, head, line);
+		}
+		dup2(fd[READ], STDIN_FILENO);
+		ms_proc(*ms, head);
 		//원상복귀
-		//dup_ret = dup2(fd_stdout, STDOUT_FILENO);
+		//dup2(fd_stdin, STDIN_FILENO);
+		//free
 	}
-	else//children
-	{
-		//write 를 ,stdoup
-		dup_ret = dup2(fd[1], STDOUT_FILENO);
-		execve("/bin/ls", ls, 0);
+	else
+	{//children
+		dup2(fd[WRITE], STDOUT_FILENO);
+		ms_proc(*ms, head);
+		//원상복귀
+		//dup2(fd_stdout, STDOUT_FILENO);
+		//free/?
 	}
-	exit(0);
+	return (0);
 }
