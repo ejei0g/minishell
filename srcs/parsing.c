@@ -188,8 +188,14 @@ int	null_flag(t_stock_str *ms, char *line)
 {
 	int i;
 
-	if (ft_strncmp(ms->args[0], "echo", 4) != 0)
+	if (ms->null_flag == -1)
 		return (-1);
+	if (ft_strncmp(ms->args[0], "echo", 4) != 0)
+	{
+		if (ms->null_flag == 0)
+			ms->null_flag = -1;
+		return (-1);
+	}
 	i = ms->l_idx;
 	ms->l_idx++;
 	if (line[ms->l_idx] == '-' && line[ms->l_idx + 1] == 'n')
@@ -197,16 +203,68 @@ int	null_flag(t_stock_str *ms, char *line)
 		ms->l_idx++;
 		while (line[ms->l_idx] == 'n')
 			ms->l_idx++;
-		printf("111111ms->%c\n", line[ms->l_idx]);
 		if (line[ms->l_idx] == ' ' || line[ms->l_idx] == '\0')
 		{
 			ms->null_flag = 1;
-			printf("asd null_flag \n");
 			return (0);
 		}
 	}
 	ms->l_idx = i;
+	if (ms->null_flag == 0)
+		ms->null_flag = -1;
 	return (-1);
+}
+
+void	redirect_parsing(t_stock_str *ms, char *line)
+{
+	int	i = 0;
+	int	fd = 0;
+//	int	fd_copy;
+	int	rdir_flag = 0;
+	char	filename[100];
+
+	i = 0;
+//	fd_copy = fd;
+	if (line[ms->l_idx] == '>' && line[ms->l_idx + 1] == '>')
+	{
+		rdir_flag = 1;
+		ms->l_idx = ms->l_idx + 2;
+	}
+	else if (line[ms->l_idx] == '>')
+	{
+		ms->l_idx = ms->l_idx + 1;
+		rdir_flag = 2;
+	}
+	else if (line[ms->l_idx] == '<')
+	{
+		ms->l_idx = ms->l_idx + 1;
+		rdir_flag = 3;
+	}
+	while (line[ms->l_idx] == ' ')
+		ms->l_idx++;
+	while (line[ms->l_idx] != ' ')
+		filename[i++] = line[ms->l_idx++];
+	filename[i] = '\0';
+	ms->file_name = ft_strdup(filename);
+	printf("filename = %s\n", ms->file_name);
+	if (rdir_flag == 2)
+		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	//ms->l_idx++;
+	//fd = open(ms->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	dup2(fd, STDOUT_FILENO);
+	printf("asdqwezxchihihihi\n");
+	ms->l_idx--;
+	//printf("zjxiocjzxoijzojoi\n");
+	//fd_copy = fd;
+	//printf("zjxiocjzxoijzojoi\n");
+/*	else if (line[ms->l_idx] == ';')i
+	{
+		ms->sc_flag = 1;
+		ms->l_idx++;
+		while (line[ms->l_idx] == ' ')
+			ms->l_idx++;
+		break ;
+	}*/
 }
 
 int	parsing(char *line, t_stock_str *ms, t_env_list *head)
@@ -221,6 +279,7 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 	i = 0;
 	while (line[ms->l_idx])
 	{
+		printf("line = %c\n", line[ms->l_idx]);
 	//	if (null_flag(ms, line) == 0)
 	//		;
 		if (ms->sq_flag == 1)
@@ -255,6 +314,11 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 			}
 			else if (line[ms->l_idx] == '$')
 				dollor_parsing(ms, line, head);
+			else if (line[ms->l_idx] == '>')
+			{
+				write(1, "1q2w3e4r\n", 9);
+				redirect_parsing(ms, line);
+			}
 			else
 			{
 				ms->args[ms->h][ms->w] = line[ms->l_idx];
@@ -266,7 +330,8 @@ int	parsing(char *line, t_stock_str *ms, t_env_list *head)
 			ms->args[ms->h][ms->w] = '\0';
 			while (line[ms->l_idx + 1] == ' ')
 				ms->l_idx++;
-			null_flag(ms, line);
+			while (null_flag(ms, line) == 0)
+				;
 			while (line[ms->l_idx + 1] == ' ')
 				ms->l_idx++;
 			if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';')

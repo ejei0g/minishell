@@ -49,7 +49,7 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("ms->args_cnt = %d\t", ms.args_cnt);
 			printf("ms->null_flag = %d\n", ms.null_flag);
 			ms_proc(ms, &head);
-			//write(1, "finish\n", 7);
+			write(1, "finish\n", 7);
 			args_free(&ms);
 		}
 		ft_putstr_fd(MINISHELL, 1);
