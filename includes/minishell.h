@@ -42,6 +42,8 @@ typedef struct	s_stock_str {
 	char	**argv;
 	int	args_cnt;//args count;
 	char	*file_name;
+	int	fd_inorg;
+	int	fd_outorg;
 	//args[0] == cmd; 
 	char	**envs;//enviroments
 	int		p_flag;//pipe flag

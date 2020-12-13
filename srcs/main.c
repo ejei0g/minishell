@@ -13,6 +13,8 @@ int	main(int argc, char *argv[], char *envp[])
 	i = 0;
 	ms.argv = argv;
 	ms.argc = argc;
+	ms.fd_inorg = dup(STDIN_FILENO);
+	ms.fd_outorg = dup(STDOUT_FILENO);
 	printf("argc = %d\n", argc);
 	head = init_copy_envp(envp);
 	ms.last_args = '\0';
@@ -44,14 +46,16 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("l_idx = %d\n", ms.l_idx);
 			printf("sq_flag = %d\t", ms.sq_flag);
 			printf("dq_flag = %d\t", ms.dq_flag);
-			printf("ms->l_idx = %c\n", line[ms.l_idx]);
-			printf("ms->last_args = %s\t", ms.last_args);
+			//printf("ms->l_idx = %c\n", line[ms.l_idx]);
+			printf("ms->last_args = %s\n", ms.last_args);
 			printf("ms->args_cnt = %d\t", ms.args_cnt);
 			printf("ms->null_flag = %d\n", ms.null_flag);
 			ms_proc(ms, &head);
 			write(1, "finish\n", 7);
 			args_free(&ms);
 		}
+		dup2(ms.fd_inorg, STDIN_FILENO);
+		dup2(ms.fd_outorg, STDOUT_FILENO);
 		ft_putstr_fd(MINISHELL, 1);
 		free(line);
 	}
