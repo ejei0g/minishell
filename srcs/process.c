@@ -131,7 +131,7 @@ void	ft_ms_execve(t_stock_str ms, char *file)
 	}
 	else
 	{
-		//wait(1);
+		sleep(1);//wait처리
 	}
 	//write(1, "\n", 1);
 }
@@ -142,18 +142,19 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
 
 	if ((file = chk_file_in_path(ms, env)) != NULL)
 	{
-		printf("errno : %d\n", errno);
-		//execve
 		ft_ms_execve(ms, file);
+		free(file);
 	}
 	else
 	{
+		/*
 		ft_ms_execve(ms, "asdfasdfasdf");
 		printf("errno : %d\n", errno);
 		printf("%s\n", strerror(errno));
-		//ft_putstr_fd(ms.args[0], 1);
-		//ft_putstr_fd(": command not found\n", 1);
-		//free?
+		*/
+		ft_putstr_fd(ms.args[0], 1);
+		ft_putstr_fd(": command not found\n", 1);
+		//free? file==NULL일경우니까 필요x
 		return ;
 	}
 }
