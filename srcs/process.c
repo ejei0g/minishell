@@ -114,7 +114,10 @@ void	ft_ms_execve(t_stock_str ms, char *file)
 	if (pid == 0)
 		execve(file, ms.args, 0);
 	else
+	{
 		waitpid(-1, &status, 0);
+		printf("parent live?\n");
+	}
 }
 
 void	ft_ms_else(t_stock_str ms, t_env_list **env)

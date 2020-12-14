@@ -1,5 +1,8 @@
 #include "minishell.h"
 
+#define READ 0
+#define WRITE 1
+
 extern void print_path(t_env_list **env);
 extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line);
 
@@ -21,6 +24,14 @@ int	main(int argc, char *argv[], char *envp[])
 	ms.last_args = '\0';
 
 	print_path(&head);
+	//-------------
+	int	pipe_a[2];
+	int	pipe_b[2];
+
+	pipe(pipe_a);
+	pipe(pipe_b);
+
+	//-------------
 
 	ft_putstr_fd(MINISHELL, 1);
 	while ((i = get_next_line(0, &line)) > 0)
@@ -35,7 +46,8 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
-			printf("\n---------------------\n");
+
+			printf("\n------------------------------------\n");
 			j = 0;
 			while (ms.args[j])
 			{
@@ -51,16 +63,28 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("ms->last_args = %s\n", ms.last_args);
 			printf("ms->args_cnt = %d\t", ms.args_cnt);
 			printf("ms->null_flag = %d\n", ms.null_flag);
+			printf("------------------------------------\n");
+		//원상복귀
+		//dup2(ms->fd_inorg, STDIN_FILENO);
+		//dup2(ms->fd_outorg, STDOUT_FILENO);
 
 			if (ms.p_flag)
 			{
-				pipe_process(&ms, &head, line);
-			//	args_free(&ms);
-			//	break;
+				printf("in pflag\n");
+				//close(pipe_a[1]);
+				dup2(pipe_a[1], STDOUT_FILENO);
+				ms_proc(ms, &head);
+				dup2(ms.fd_outorg, STDOUT_FILENO);
+				printf("out proc\n");
 			}
 			else
+			{
+				printf("%d %d\n", pipe_a[0], pipe_a[1]);
+				dup2(pipe_a[0], STDIN_FILENO);
 				ms_proc(ms, &head);
-			write(1, "finish\n", 7);
+				dup2(ms.fd_inorg, STDIN_FILENO);
+			}
+//			write(1, "finish\n", 7);
 			args_free(&ms);
 		}
 		dup2(ms.fd_inorg, STDIN_FILENO);
