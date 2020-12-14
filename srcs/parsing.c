@@ -1,9 +1,6 @@
 #include "minishell.h"
 
-//TODO echo "$_" 나중에 하기
-// $1 asd 이렇게 했을떄 $1이 널값이면 앞에 스페이스가 추가되는거 수정해야됨
-
-int	parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
+int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
 {
 	if (line[ms->l_idx] == '\\')
 		ms->args[ms->h][ms->w++] = line[++ms->l_idx];
@@ -57,7 +54,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 	}
 }
 
-int	parsing(char *line, t_stock_str *ms, t_env_list *head)
+int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 {
 	int i;
 	int j;

@@ -2,8 +2,9 @@
 
 void	rdir_fd_dup(t_stock_str *ms, int rdir_flag)
 {
-	int	fd = 0;
+	int	fd;
 
+	fd = 0;
 	if (rdir_flag == 1)
 		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_APPEND);
 	else if (rdir_flag == 2)
@@ -38,10 +39,10 @@ int		rdir_flag_setting(t_stock_str *ms, char *line)
 
 void	redirect_parsing(t_stock_str *ms, char *line)
 {
-	int	i = 0;
-	int	rdir_flag;
+	int		i;
+	int		rdir_flag;
 	char	filename[100];
-	int	cp_l_idx;
+	int		cp_l_idx;
 
 	i = 0;
 	cp_l_idx = 0;

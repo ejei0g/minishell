@@ -27,7 +27,7 @@ void	dq_flag_parsing(t_stock_str *ms, char *line, t_env_list *head)
 	ms->dq_flag = 0;
 }
 
-int	null_flag(t_stock_str *ms, char *line)
+int		null_flag(t_stock_str *ms, char *line)
 {
 	int i;
 
