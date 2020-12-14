@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaeylee <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/14 16:19:57 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/14 16:59:36 by hwyu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,11 @@ LIBS		=	-lft -L./libft
 LIBFT		=	./libft
 
 SRCS		=	./srcs/main.c \
+			./srcs/dollor_parsing.c\
+			./srcs/flag_check.c\
+			./srcs/flag_parsing.c\
+			./srcs/redirect.c\
+			./srcs/argcv_parsing.c\
 			./srcs/parsing.c\
 			./srcs/parsing_utils.c\
 			./srcs/list_func.c\

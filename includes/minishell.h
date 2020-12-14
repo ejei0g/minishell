@@ -44,7 +44,7 @@ typedef struct	s_stock_str {
 	char	*file_name;
 	int	fd_inorg;
 	int	fd_outorg;
-	//args[0] == cmd; 
+	//args[0] == cmd;
 	char	**envs;//enviroments
 	int		p_flag;//pipe flag
 	int		sc_flag;//semicolon flag
@@ -69,6 +69,26 @@ int     parsing(char *line, t_stock_str *ms, t_env_list *head);
 int     flag_check(t_stock_str *ms, char c);
 void    str_init(t_stock_str *ms);
 void	args_free(t_stock_str *ms);
+void	rdir_fd_dup(t_stock_str *ms, int rdir_flag);
+int		rdir_flag_setting(t_stock_str *ms, char *line);
+void	sq_flag_parsing(t_stock_str *ms, char *line);
+void	dq_flag_parsing(t_stock_str *ms, char *line, t_env_list *head);
+int		null_flag(t_stock_str *ms, char *line);
+int		p_sc_flag_parsing(t_stock_str *ms, char *line);
+void	env_parsing(t_stock_str *ms, t_env_list *head, char a[100]);
+int		all_argv_parsing(t_stock_str *ms, char *line);
+void	argv_parsing(t_stock_str *ms, int i);
+void	str_init(t_stock_str *ms);
+void	args_free(t_stock_str *ms);
+int		flag_check(t_stock_str *ms, char c);
+int		space_check(char *line);
+int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head);
+void	parsing_is_space(t_stock_str *ms, char *line);
+void	line_parsing(char *line, t_stock_str *ms, t_env_list *head);
+void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head);
+int		dollor_parsing2(t_stock_str *ms, char *line, int brace);
+int		dollor_argcv(t_stock_str *ms, char *line, int i);
+void	redirect_parsing(t_stock_str *ms, char *line);
 
 /* ==================================== *
  *	list_func, export, unset, env	*
