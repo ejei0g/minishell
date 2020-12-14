@@ -47,6 +47,7 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("argc = %d\n", argc);
 	head = init_copy_envp(envp);
 	ms.last_args = '\0';
+	ms.fd_flag = 0;
 
 	print_path(&head);
 	//-------------
@@ -75,26 +76,49 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
+			printf("p_flag = %d\n", ms.p_flag);
 			//
 			if (ms.p_flag == 1)
 			{
-				fork_func(pipefd2, pipefd1, &ms, &head);
+				if (ms.fd_flag == 0 || ms.fd_flag == 2)
+				{
+					fork_func(pipefd2, pipefd1, &ms, &head);
+					ms.fd_flag = 1;
+				}
+				else
+				{
+					fork_func(pipefd1, pipefd2, &ms, &head);
+					ms.fd_flag = 2;
+				}
 				args_free(&ms);
-				str_init(&ms);
-				parsing(line, &ms, head);
-				fork_func(pipefd1, pipefd2, &ms, &head);
+				continue ;
 			}
-			args_free(&ms);
-			str_init(&ms);
-			parsing(line, &ms, head);
-			close(pipefd2[0]);//1
-			close(pipefd2[1]);//1
-			close(pipefd1[1]);//2
-			dup2(pipefd1[0], STDIN_FILENO);
-			close(pipefd1[0]);//2
+			if (ms.fd_flag == 2)
+			{
+				close(pipefd2[0]);//1
+				close(pipefd2[1]);//1
+				close(pipefd1[1]);//2
+				dup2(pipefd1[0], STDIN_FILENO);
+				close(pipefd1[0]);//2
+				ms_proc(ms, &head);
+				ms.fd_flag = 0;
+				continue ;
+			}
+			else if (ms.fd_flag == 1)
+			{
+				close(pipefd1[0]);//1
+				close(pipefd1[1]);//1
+				close(pipefd2[1]);//2
+				dup2(pipefd2[0], STDIN_FILENO);
+				close(pipefd2[0]);//2
+				ms_proc(ms, &head);
+				ms.fd_flag = 0;
+				continue ;
+			}
+			//args_free(&ms);
+			//str_init(&ms);
+			//parsing(line, &ms, head);
 			ms_proc(ms, &head);
-
-
 			args_free(&ms);
 		}
 		dup2(ms.fd_inorg, STDIN_FILENO);
