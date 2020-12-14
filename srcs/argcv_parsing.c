@@ -36,7 +36,7 @@ int		all_argv_parsing(t_stock_str *ms, char *line)
 	return (1);
 }
 
-void	env_parsing(t_stock_str *ms, t_env_list *head, char a[100])
+void	env_parsing(t_stock_str *ms, t_env_list *head, char *a)
 {
 	int i;
 
