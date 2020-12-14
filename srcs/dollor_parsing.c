@@ -32,7 +32,9 @@ int		dollor_parsing2(t_stock_str *ms, char *line, int brace)
 			ms->l_idx--;
 		return (-1);
 	}
-	if (!((line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') || (line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_'))
+	if (!((line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') ||
+		(line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') ||
+		line[ms->l_idx] == '_'))
 	{
 		ms->args[ms->h][ms->w++] = '$';
 		ms->l_idx--;
@@ -40,6 +42,7 @@ int		dollor_parsing2(t_stock_str *ms, char *line, int brace)
 	}
 	return (brace);
 }
+
 void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head)
 {
 	int		brace;
@@ -54,7 +57,8 @@ void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head)
 		return ;
 	while ((line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9') ||
 		(line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') ||
-		(line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') || line[ms->l_idx] == '_')
+		(line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') ||
+		line[ms->l_idx] == '_')
 			a[j++] = line[ms->l_idx++];
 	a[j] = '\0';
 	if (brace == 1)
