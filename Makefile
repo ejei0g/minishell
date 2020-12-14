@@ -6,7 +6,7 @@
 #    By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/14 16:59:36 by hwyu             ###   ########.fr        #
+#    Updated: 2020/12/15 00:40:27 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		=	./srcs/main.c \
 			./srcs/process.c\
 			./srcs/implement.c\
 			./srcs/echo.c\
+			./srcs/cd.c\
 			./srcs/export.c\
 			./srcs/exit.c\
 			./srcs/error.c\
