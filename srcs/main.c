@@ -4,7 +4,35 @@
 #define WRITE 1
 
 extern void print_path(t_env_list **env);
-extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line);
+extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line, int p1[2], int p2[2]);
+
+
+int fork_func( int pipefd1[2], int pipefd2[2], t_stock_str ms, t_env_list **head)
+{
+    pid_t pid = fork();
+    int	status;
+
+    if (pid > 0)
+    {
+	waitpid(-1, &status, 0);
+	return (pipefd1[0]);
+    }
+    else
+    {
+        close(pipefd2[1]);//2
+        dup2(pipefd2[0], STDIN_FILENO);
+        close(pipefd2[0]);//2
+
+        close(pipefd1[0]);//1
+        dup2(pipefd1[1], STDOUT_FILENO);
+        close(pipefd1[1]);//1
+
+	ms_proc(ms, head);
+        //execve(argv[0], argv, 0);
+    }
+    return (pipefd1[0]);
+}
+
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -25,11 +53,15 @@ int	main(int argc, char *argv[], char *envp[])
 
 	print_path(&head);
 	//-------------
-	int	pipe_a[2];
-	int	pipe_b[2];
+	int	pipefd1[2];
+	int	pipefd2[2];
+	int	tmp;
 
-	pipe(pipe_a);
-	pipe(pipe_b);
+
+	pipe(pipefd1);
+	pipe(pipefd2);
+	tmp = pipefd1[0];
+	printf("init tmp : %d pipefd1[0]: %d\n", tmp, pipefd1[0]);
 
 	//-------------
 
@@ -65,24 +97,38 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("ms->null_flag = %d\n", ms.null_flag);
 			printf("------------------------------------\n");
 		//원상복귀
-		//dup2(ms->fd_inorg, STDIN_FILENO);
-		//dup2(ms->fd_outorg, STDOUT_FILENO);
+		//dup2(ms.fd_inorg, STDIN_FILENO);
+		//dup2(ms.fd_outorg, STDOUT_FILENO);
 
 			if (ms.p_flag)
 			{
-				printf("in pflag\n");
-				//close(pipe_a[1]);
-				dup2(pipe_a[1], STDOUT_FILENO);
-				ms_proc(ms, &head);
-				dup2(ms.fd_outorg, STDOUT_FILENO);
-				printf("out proc\n");
+				if (tmp == pipefd1[0])
+					tmp = fork_func(pipefd2, pipefd1, ms, &head);
+				else
+					tmp = fork_func(pipefd1, pipefd2, ms, &head);
+				printf("hello tmp : %d\n", tmp);
 			}
 			else
 			{
-				printf("%d %d\n", pipe_a[0], pipe_a[1]);
-				dup2(pipe_a[0], STDIN_FILENO);
+				if (tmp == pipefd1[0])
+				{
+					close(pipefd2[0]);
+					close(pipefd2[1]);
+
+					close(pipefd1[0]);
+					dup2(pipefd1[0], STDIN_FILENO);
+					close(pipefd1[1]);
+				}
+				else
+				{
+					close(pipefd1[0]);
+					close(pipefd1[1]);
+
+					close(pipefd2[0]);
+					dup2(pipefd2[0], STDIN_FILENO);
+					close(pipefd2[1]);
+				}
 				ms_proc(ms, &head);
-				dup2(ms.fd_inorg, STDIN_FILENO);
 			}
 //			write(1, "finish\n", 7);
 			args_free(&ms);
