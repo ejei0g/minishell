@@ -59,7 +59,7 @@ void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head)
 		(line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') ||
 		(line[ms->l_idx] >= 'A' && line[ms->l_idx] <= 'Z') ||
 		line[ms->l_idx] == '_')
-			a[j++] = line[ms->l_idx++];
+		a[j++] = line[ms->l_idx++];
 	a[j] = '\0';
 	if (brace == 1)
 	{

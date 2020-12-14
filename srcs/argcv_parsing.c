@@ -38,8 +38,8 @@ int		all_argv_parsing(t_stock_str *ms, char *line)
 
 void	env_parsing(t_stock_str *ms, t_env_list *head, char *a)
 {
-	int i;
-	t_env_list *test;
+	int			i;
+	t_env_list	*test;
 
 	i = 0;
 	test = find_env_key(&head, a);
