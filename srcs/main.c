@@ -7,16 +7,13 @@ extern void print_path(t_env_list **env);
 extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line, int p1[2], int p2[2]);
 
 
-int fork_func( int pipefd1[2], int pipefd2[2], t_stock_str ms, t_env_list **head)
+int fork_func(int pipefd1[2], int pipefd2[2], t_stock_str *ms, t_env_list **head)
 {
     pid_t pid = fork();
-//    int	status;
 
     if (pid > 0)
     {
-	    sleep(2);
-//	waitpid(-1, &status, 0);
-	return (pipefd1[0]);
+		sleep(1);
     }
     else
     {
@@ -28,19 +25,17 @@ int fork_func( int pipefd1[2], int pipefd2[2], t_stock_str ms, t_env_list **head
         dup2(pipefd1[1], STDOUT_FILENO);
         close(pipefd1[1]);//1
 
-	ms_proc(ms, head);
-	exit(0);
-        //execve(argv[0], argv, 0);
+		ms_proc(*ms, head);
+		exit(1);
     }
     return (pipefd1[0]);
 }
-
 
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
 	int	i;
-	int	j;
+	//int	j;
 	t_env_list	*head;
 	t_stock_str ms;
 
@@ -80,59 +75,26 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
-
-			printf("\n------------------------------------\n");
-			j = 0;
-			while (ms.args[j])
+			//
+			if (ms.p_flag == 1)
 			{
-				printf("ms.args[%d] = %s\n", j, ms.args[j]);
-				j++;
+				fork_func(pipefd2, pipefd1, &ms, &head);
+				args_free(&ms);
+				str_init(&ms);
+				parsing(line, &ms, head);
+				fork_func(pipefd1, pipefd2, &ms, &head);
 			}
-		       	printf("p_flag = %d\t", ms.p_flag);
-			printf("sc_flag = %d\t", ms.sc_flag);
-			printf("l_idx = %d\n", ms.l_idx);
-			printf("sq_flag = %d\t", ms.sq_flag);
-			printf("dq_flag = %d\t", ms.dq_flag);
-			//printf("ms->l_idx = %c\n", line[ms.l_idx]);
-			printf("ms->last_args = %s\n", ms.last_args);
-			printf("ms->args_cnt = %d\t", ms.args_cnt);
-			printf("ms->null_flag = %d\n", ms.null_flag);
-			printf("------------------------------------\n");
-		//원상복귀
-		//dup2(ms.fd_inorg, STDIN_FILENO);
-		//dup2(ms.fd_outorg, STDOUT_FILENO);
+			args_free(&ms);
+			str_init(&ms);
+			parsing(line, &ms, head);
+			close(pipefd2[0]);//1
+			close(pipefd2[1]);//1
+			close(pipefd1[1]);//2
+			dup2(pipefd1[0], STDIN_FILENO);
+			close(pipefd1[0]);//2
+			ms_proc(ms, &head);
 
-			if (ms.p_flag)
-			{
-				if (tmp == pipefd1[0])
-					tmp = fork_func(pipefd2, pipefd1, ms, &head);
-				else
-					tmp = fork_func(pipefd1, pipefd2, ms, &head);
-				printf("hello tmp : %d\n", tmp);
-			}
-			else
-			{
-				if (tmp == pipefd1[0])
-				{
-					close(pipefd2[0]);
-					close(pipefd2[1]);
 
-					close(pipefd1[0]);
-					dup2(pipefd1[0], STDIN_FILENO);
-					close(pipefd1[1]);
-				}
-				else
-				{
-					close(pipefd1[0]);
-					close(pipefd1[1]);
-
-					close(pipefd2[0]);
-					dup2(pipefd2[0], STDIN_FILENO);
-					close(pipefd2[1]);
-				}
-				ms_proc(ms, &head);
-			}
-//			write(1, "finish\n", 7);
 			args_free(&ms);
 		}
 		dup2(ms.fd_inorg, STDIN_FILENO);
