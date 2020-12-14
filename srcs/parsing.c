@@ -1,9 +1,6 @@
 #include "minishell.h"
 
-//TODO echo "$_" 나중에 하기
-// $1 asd 이렇게 했을떄 $1이 널값이면 앞에 스페이스가 추가되는거 수정해야됨
-
-int	parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
+int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
 {
 	if (line[ms->l_idx] == '\\')
 		ms->args[ms->h][ms->w++] = line[++ms->l_idx];
@@ -23,11 +20,12 @@ void	parsing_is_space(t_stock_str *ms, char *line)
 	ms->args[ms->h][ms->w] = '\0';
 	while (line[ms->l_idx + 1] == ' ')
 		ms->l_idx++;
-	while (null_flag(ms, line) == 0)
+	while (null_flag(ms, line, 0) == 0)
 		;
 	while (line[ms->l_idx + 1] == ' ')
 		ms->l_idx++;
-	if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';' || line[ms->l_idx + 1] == '>')
+	if (line[ms->l_idx + 1] == '|' ||
+		line[ms->l_idx + 1] == ';' || line[ms->l_idx + 1] == '>')
 		;
 	else if (line[ms->l_idx + 1] != '\0')
 	{
@@ -49,7 +47,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 		else if (line[ms->l_idx] != ' ')
 		{
 			if (parsing_n_apace(ms, line, head) == -1)
-				break;
+				break ;
 		}
 		else if (line[ms->l_idx] == ' ')
 			parsing_is_space(ms, line);
@@ -57,7 +55,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 	}
 }
 
-int	parsing(char *line, t_stock_str *ms, t_env_list *head)
+int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 {
 	int i;
 	int j;
