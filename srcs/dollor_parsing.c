@@ -28,7 +28,7 @@ int		dollor_parsing2(t_stock_str *ms, char *line, int brace)
 	}
 	if (dollor_argcv(ms, line, 0) == 0)
 	{
-		if (brace != 1) // echo ${0asd} 에러처리
+		if (brace != 1)
 			ms->l_idx--;
 		return -1;
 	}

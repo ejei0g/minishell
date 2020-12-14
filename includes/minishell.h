@@ -73,7 +73,7 @@ void	rdir_fd_dup(t_stock_str *ms, int rdir_flag);
 int		rdir_flag_setting(t_stock_str *ms, char *line);
 void	sq_flag_parsing(t_stock_str *ms, char *line);
 void	dq_flag_parsing(t_stock_str *ms, char *line, t_env_list *head);
-int		null_flag(t_stock_str *ms, char *line);
+int		null_flag(t_stock_str *ms, char *line, int i);
 int		p_sc_flag_parsing(t_stock_str *ms, char *line);
 void	env_parsing(t_stock_str *ms, t_env_list *head, char a[100]);
 int		all_argv_parsing(t_stock_str *ms, char *line);

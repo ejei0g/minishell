@@ -25,15 +25,15 @@ int		all_argv_parsing(t_stock_str *ms, char *line)
 			if (ms->argv[i] == NULL)
 			{
 				ms->l_idx++;
-				return 0;
+				return (0);
 			}
 			ms->args[ms->h++][ms->w] = '\0';
 			ms->w = 0;
 		}
 		ms->l_idx++;
-		return 0;
+		return (0);
 	}
-	return 1;
+	return (1);
 }
 
 void	env_parsing(t_stock_str *ms, t_env_list *head, char a[100])

@@ -20,11 +20,12 @@ void	parsing_is_space(t_stock_str *ms, char *line)
 	ms->args[ms->h][ms->w] = '\0';
 	while (line[ms->l_idx + 1] == ' ')
 		ms->l_idx++;
-	while (null_flag(ms, line) == 0)
+	while (null_flag(ms, line, 0) == 0)
 		;
 	while (line[ms->l_idx + 1] == ' ')
 		ms->l_idx++;
-	if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == ';' || line[ms->l_idx + 1] == '>')
+	if (line[ms->l_idx + 1] == '|' ||
+		line[ms->l_idx + 1] == ';' || line[ms->l_idx + 1] == '>')
 		;
 	else if (line[ms->l_idx + 1] != '\0')
 	{
@@ -46,7 +47,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 		else if (line[ms->l_idx] != ' ')
 		{
 			if (parsing_n_apace(ms, line, head) == -1)
-				break;
+				break ;
 		}
 		else if (line[ms->l_idx] == ' ')
 			parsing_is_space(ms, line);
