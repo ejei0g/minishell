@@ -32,6 +32,8 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env)
 		export_print(*env);
 	else
 	{
+		if (ms.args[1][0] == '=')
+			err_invalid(ms, 1);
 		export_add(ms, env);
 		write(1, "\n", 1);//TODO:정상작동하는지 체크
 	}
@@ -50,9 +52,12 @@ void	ft_ms_unset(t_stock_str ms, t_env_list **env)
 			;
 		else if (ft_strchr(ms.args[i], '='))
 		{
+			err_invalid(ms, i);
+			/*
 			ft_putstr_fd("bash: unset: '", 1);
 			ft_putstr_fd(ms.args[i], 1);
 			ft_putstr_fd("': not a valid identifier", 1);
+			*/
 		}
 		else
 			delete_node(env, ms.args[i]);

@@ -6,7 +6,7 @@
 #    By: jaeylee <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/13 18:13:19 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/14 16:19:57 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS		=	./srcs/main.c \
 			./srcs/echo.c\
 			./srcs/export.c\
 			./srcs/exit.c\
+			./srcs/error.c\
 			./srcs/pipe_proc.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c

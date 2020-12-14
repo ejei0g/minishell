@@ -12,16 +12,21 @@ static int	printf_err()
 
 int	pipe_process(t_stock_str *ms, t_env_list **head, char *line)
 {
-	int	fd[2];
+	int	fdA[2];
+//	int	fdB[2];
 	pid_t	pid;
 
-	if (pipe(fd) < 0)
+	if (pipe(fdA) < 0)
 		return (printf_err());
+	//if (pipe(fdB) < 0)
+	//	return (printf_err());
 	if ((pid = fork()) < 0)
 		return (printf_err());
 	if (pid > 0)
 	{
 	//	wait(&status);
+		//close(fdA[WRITE]);
+		//close(fdB[READ]);
 		sleep(1);
 
 		str_init(ms);
@@ -35,22 +40,28 @@ int	pipe_process(t_stock_str *ms, t_env_list **head, char *line)
 		{
 		//	dup2(ms->fd_outorg, STDOUT_FILENO);
 //			execve("/bin/grep", ms->args, 0);
-			dup2(fd[READ], STDIN_FILENO);
+			dup2(fdA[READ], STDIN_FILENO);
+		//	dup2(fdB[WRITE], STDOUT_FILENO);
 			ms_proc(*ms, head);
 			return (1);
 		}
 		//원상복귀
-		dup2(ms->fd_inorg, STDIN_FILENO);
+		//dup2(ms->fd_inorg, STDIN_FILENO);
+		//dup2(ms->fd_outorg, STDOUT_FILENO);
 		printf("stdin change test\n");
 		//free
 	//	args_free(ms);
 	}
 	else
 	{//children
-		dup2(fd[WRITE], STDOUT_FILENO);
+	//	close(fdA[READ]);
+		//close(fdB[WRITE]);
+		dup2(fdA[WRITE], STDOUT_FILENO);
+		//dup2(fdB[READ], STDIN_FILENO);
 		ms_proc(*ms, head);
 		//원상복귀
 		dup2(ms->fd_outorg, STDOUT_FILENO);
+		//dup2(ms->fd_inorg, STDIN_FILENO);
 		printf("stdout change test\n");
 		args_free(ms);
 		exit(0);

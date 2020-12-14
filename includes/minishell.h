@@ -102,5 +102,6 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env);
 void	ft_ms_unset(t_stock_str ms, t_env_list **env);
 void	ft_ms_env(t_env_list *env);
 void	ft_ms_exit(t_env_list **env);
+void	err_invalid(t_stock_str ms, int i);
 
 #endif
