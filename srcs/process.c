@@ -43,10 +43,7 @@ char	*find_file_name(char *path, char *file_name)
 	char	*full_path;
 
 	if ((dp = opendir(path)) == NULL)
-	{
-		ft_putstr_fd(strerror(errno), 1);
-		return (NULL);
-	}
+		return (err_path_dir());
 	while ((entry = readdir(dp)) != NULL)
 	{
 		if (is_cmd(file_name, entry->d_name))
@@ -60,19 +57,6 @@ char	*find_file_name(char *path, char *file_name)
 			}
 			free(full_path);
 		}
-		/*
-		full_path = make_apsolute_path(path, entry->d_name);
-		lstat(full_path, &buf);
-		//printf("%d ", buf.st_mode);
-		//if (S_ISDIR(buf.st_mode))
-		if (S_ISREG(buf.st_mode))
-		{
-			ft_putstr_fd(entry->d_name, 1);
-			ft_putstr_fd(" ", 1);
-		}
-		//ft_putstr_fd(full_path, 1);
-		free(full_path);
-		*/
 	}
 	closedir(dp);
 	return (0);
@@ -123,25 +107,19 @@ char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
 
 void	ft_ms_execve(t_stock_str ms, char *file)
 {
-	int	pid;
+	pid_t	pid;
+	int	status;
 
 	pid = fork();
 	if (pid == 0)
-	{
 		execve(file, ms.args, 0);
-		write(1, "exit?\n", 6);
-//		exit(0);
-	}
 	else
-	{
-		sleep(1);//wait처리
-	}
-	//write(1, "\n", 1);
+		waitpid(-1, &status, 0);
 }
 
 void	ft_ms_else(t_stock_str ms, t_env_list **env)
 {
-	char	*file; //full path
+	char	*file;
 
 	if ((file = chk_file_in_path(ms, env)) != NULL)
 	{
@@ -150,14 +128,8 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
 	}
 	else
 	{
-		/*
-		ft_ms_execve(ms, "asdfasdfasdf");
-		printf("errno : %d\n", errno);
-		printf("%s\n", strerror(errno));
-		*/
 		ft_putstr_fd(ms.args[0], 1);
 		ft_putstr_fd(": command not found\n", 1);
-		//free? file==NULL일경우니까 필요x
 		return ;
 	}
 }

@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <wait.h>
 #include "get_next_line.h"
 #include "libft.h"
 
@@ -122,6 +123,8 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env);
 void	ft_ms_unset(t_stock_str ms, t_env_list **env);
 void	ft_ms_env(t_env_list *env);
 void	ft_ms_exit(t_env_list **env);
+
 void	err_invalid(t_stock_str ms, int i);
+char	*err_path_dir(void);
 
 #endif
