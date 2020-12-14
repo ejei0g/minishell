@@ -26,18 +26,18 @@ int	pipe_process(t_stock_str *ms, t_env_list **head, char *line)
 
 		str_init(ms);
 		parsing(line, ms, *head);
-		dup2(fd[READ], STDIN_FILENO);
 		if (ms->p_flag)
 		{
-		//	printf("in second pipe\n");
+			printf("in second pipe\n");
 			pipe_process(ms, head, line);
 		}
 		else
 		{
 		//	dup2(ms->fd_outorg, STDOUT_FILENO);
 //			execve("/bin/grep", ms->args, 0);
+			dup2(fd[READ], STDIN_FILENO);
 			ms_proc(*ms, head);
-
+			return (1);
 		}
 		//원상복귀
 		dup2(ms->fd_inorg, STDIN_FILENO);
@@ -52,6 +52,8 @@ int	pipe_process(t_stock_str *ms, t_env_list **head, char *line)
 		//원상복귀
 		dup2(ms->fd_outorg, STDOUT_FILENO);
 		printf("stdout change test\n");
+		args_free(ms);
+		exit(0);
 	}
 	return (0);
 }

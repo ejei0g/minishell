@@ -10,7 +10,7 @@ void	free_envp_arr(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		free(envp[i]);
+		free((char *)envp[i]);
 		i++;
 	}
 	free(envp);

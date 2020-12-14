@@ -35,12 +35,6 @@ int	main(int argc, char *argv[], char *envp[])
 				free(line);
 			}
 			parsing(line, &ms, head);
-			if (ms.p_flag)
-			{
-				pipe_process(&ms, &head, line);
-				args_free(&ms);
-				break;
-			}
 			printf("\n---------------------\n");
 			j = 0;
 			while (ms.args[j])
@@ -57,7 +51,15 @@ int	main(int argc, char *argv[], char *envp[])
 			printf("ms->last_args = %s\n", ms.last_args);
 			printf("ms->args_cnt = %d\t", ms.args_cnt);
 			printf("ms->null_flag = %d\n", ms.null_flag);
-			ms_proc(ms, &head);
+
+			if (ms.p_flag)
+			{
+				pipe_process(&ms, &head, line);
+			//	args_free(&ms);
+			//	break;
+			}
+			else
+				ms_proc(ms, &head);
 			write(1, "finish\n", 7);
 			args_free(&ms);
 		}

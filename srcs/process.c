@@ -24,6 +24,7 @@ int	is_cmd(char *s1, char *s2)
 {
 	int	count;
 
+	count = 0;
 	if (ft_strlen(s1) > ft_strlen(s2))
 		count = ft_strlen(s1);
 	else
@@ -104,6 +105,7 @@ char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
 	char	**paths;
 	int	i;
 
+	i = 0;
 	path = find_env_key(env, "PATH");
 	paths = ft_split(path->data + 5, ':');
 	while (paths[i])
@@ -127,7 +129,8 @@ void	ft_ms_execve(t_stock_str ms, char *file)
 	if (pid == 0)
 	{
 		execve(file, ms.args, 0);
-		write(1, "\n", 1);
+		write(1, "exit?\n", 6);
+//		exit(0);
 	}
 	else
 	{
