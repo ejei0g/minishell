@@ -34,34 +34,6 @@ int	is_cmd(char *s1, char *s2)
 	return (0);
 }
 
-//full path malloc
-char	*find_file_name(char *path, char *file_name)
-{
-	DIR		*dp;
-	struct dirent	*entry;
-	struct stat	buf;
-	char	*full_path;
-
-	if ((dp = opendir(path)) == NULL)
-		return (err_path_dir());
-	while ((entry = readdir(dp)) != NULL)
-	{
-		if (is_cmd(file_name, entry->d_name))
-		{
-			full_path = make_full_path(path, entry->d_name);
-			lstat(full_path, &buf);
-			if (S_ISREG(buf.st_mode))
-			{
-				closedir(dp);
-				return (full_path);
-			}
-			free(full_path);
-		}
-	}
-	closedir(dp);
-	return (0);
-}
-
 void	print_path(t_env_list **env)
 {
 	t_env_list *path;
@@ -80,6 +52,36 @@ void	print_path(t_env_list **env)
 	}
 	//paths free;
 	free_envp_arr(paths);
+}
+
+//full path malloc
+char	*find_file_name(char *path, char *file_name)
+{
+	DIR		*dp;
+	struct dirent	*entry;
+	struct stat	buf;
+	char	*full_path;
+
+	if ((dp = opendir(path)) == NULL)
+		return (err_path_dir());
+	while ((entry = readdir(dp)) != NULL)
+	{
+		full_path = make_full_path(path, entry->d_name);
+		if (is_cmd(full_path, file_name))
+			return (full_path);
+		if (is_cmd(file_name, entry->d_name))
+		{
+			lstat(full_path, &buf);
+			if (S_ISREG(buf.st_mode))
+			{
+				closedir(dp);
+				return (full_path);
+			}
+		}
+		free(full_path);
+	}
+	closedir(dp);
+	return (0);
 }
 
 char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
@@ -131,8 +133,17 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
 	}
 	else
 	{
-		ft_putstr_fd(ms.args[0], 1);
-		ft_putstr_fd(": command not found\n", 1);
+		if (ms.args[0][0] == '/')
+		{
+			ft_putstr_fd("bash: ", 1);
+			ft_putstr_fd(ms.args[0], 1);
+			ft_putstr_fd(": No such file or directory\n", 1);
+		}
+		else
+		{
+			ft_putstr_fd(ms.args[0], 1);
+			ft_putstr_fd(": command not found\n", 1);
+		}
 		return ;
 	}
 }

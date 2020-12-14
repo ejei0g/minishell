@@ -10,11 +10,12 @@ extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line, int p1[2
 int fork_func( int pipefd1[2], int pipefd2[2], t_stock_str ms, t_env_list **head)
 {
     pid_t pid = fork();
-    int	status;
+//    int	status;
 
     if (pid > 0)
     {
-	waitpid(-1, &status, 0);
+	    sleep(2);
+//	waitpid(-1, &status, 0);
 	return (pipefd1[0]);
     }
     else
@@ -28,6 +29,7 @@ int fork_func( int pipefd1[2], int pipefd2[2], t_stock_str ms, t_env_list **head
         close(pipefd1[1]);//1
 
 	ms_proc(ms, head);
+	exit(0);
         //execve(argv[0], argv, 0);
     }
     return (pipefd1[0]);
