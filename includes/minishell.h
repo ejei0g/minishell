@@ -10,6 +10,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <signal.h>
 #include <wait.h>
 #include "get_next_line.h"
 #include "libft.h"
@@ -118,7 +119,7 @@ int	is_env_key(char *env, char *del);
 
 void	ms_proc(t_stock_str ms, t_env_list **env);
 void	ft_ms_echo(t_stock_str ms);
-void	ft_ms_cd(t_stock_str ms);
+void	ft_ms_cd(t_stock_str ms, t_env_list **env);
 void	ft_ms_pwd(void);
 void	ft_ms_export(t_stock_str ms, t_env_list **env);
 void	ft_ms_unset(t_stock_str ms, t_env_list **env);

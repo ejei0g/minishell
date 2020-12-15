@@ -164,7 +164,7 @@ void	ms_proc(t_stock_str ms, t_env_list **env)
 	if (is_cmd(ms.args[0], ECHO))
 		ft_ms_echo(ms);
 	else if (is_cmd(ms.args[0], CD))
-		ft_ms_cd(ms);
+		ft_ms_cd(ms, env);
 	else if (is_cmd(ms.args[0], PWD))
 		ft_ms_pwd();
 	else if (is_cmd(ms.args[0], EXPORT))

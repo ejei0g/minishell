@@ -100,6 +100,8 @@ void	export_add(t_stock_str ms, t_env_list **env)
 	{
 		if (ft_strncmp(ms.args[i], "_=", 2) == 0)
 			;
+		else if (ms.args[i][0] == '=')
+			;
 		else if ((tmp = find_env_key(env, ms.args[i])) != 0)
 		{
 			free(tmp->data);

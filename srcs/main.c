@@ -31,6 +31,12 @@ int fork_func(int pipefd1[2], int pipefd2[2], t_stock_str *ms, t_env_list **head
     return (pipefd1[0]);
 }
 
+void	sig_handler(void)
+{
+	ft_putstr_fd("\n", 1);
+	ft_putstr_fd(MINISHELL, 1);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*line;
@@ -50,6 +56,8 @@ int	main(int argc, char *argv[], char *envp[])
 	ms.fd_flag = 0;
 
 	print_path(&head);
+	//--signal
+	signal(SIGINT, (void *)sig_handler);
 	//-------------
 	int	pipefd1[2];
 	int	pipefd2[2];
@@ -125,6 +133,12 @@ int	main(int argc, char *argv[], char *envp[])
 		dup2(ms.fd_outorg, STDOUT_FILENO);
 		ft_putstr_fd(MINISHELL, 1);
 		free(line);
+	}
+	//ctrl D + exit
+	if (i == 0)
+	{
+		ft_putstr_fd("exit\n", 1);
+		exit(0);
 	}
 	free(line);
 	return (0);
