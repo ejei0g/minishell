@@ -1,5 +1,16 @@
 #include "minishell.h"
 
+void	ms_init(t_stock_str *ms, int argc, char *argv[])
+{
+	ms->argv = argv;
+	ms->argc = argc;
+	ms->fd_inorg = dup(STDIN_FILENO);
+	ms->fd_outorg = dup(STDOUT_FILENO);
+	ms->last_args = '\0';
+	ms->fd_flag = 0;
+	ms->err = 0;
+}
+
 void	str_init(t_stock_str *ms)
 {
 	ms->w = 0;
