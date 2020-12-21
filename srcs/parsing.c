@@ -51,6 +51,15 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 			dq_flag_parsing(ms, line, head);
 		else if (flag_check(ms, line[ms->l_idx]) == 0)
 			;
+		else if (line[ms->l_idx] == '>' || line[ms->l_idx] == '<')
+		{
+			if (redirect_parsing(ms, line) == -1)
+			{
+				ft_putstr_fd("bash: syntax error near unexpected token \'>\'\n", 1);
+				ms->err = 2;
+				break ;
+			}
+		}
 		else if (line[ms->l_idx] != ' ')
 		{
 			if (parsing_n_apace(ms, line, head) == -1)
