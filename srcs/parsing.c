@@ -8,15 +8,6 @@ int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
 		return (-1);
 	else if (line[ms->l_idx] == '$')
 		dollor_parsing(ms, line, head);
-	else if (line[ms->l_idx] == '>' || line[ms->l_idx] == '<')
-	{
-		if (redirect_parsing(ms, line) == -1)
-		{
-			ft_putstr_fd("bash: syntax error near unexpected token \'>\'\n", 1);
-			ms->err = 2;
-			return (-1);
-		}
-	}
 	else
 		ms->args[ms->h][ms->w++] = line[ms->l_idx];
 	return (0);
@@ -31,7 +22,7 @@ void	parsing_is_space(t_stock_str *ms, char *line)
 		;
 	while (line[ms->l_idx + 1] == ' ')
 		ms->l_idx++;
-	if (line[ms->l_idx + 1] == '|' ||
+	if (line[ms->l_idx + 1] == '|' || line[ms->l_idx + 1] == '<' ||
 		line[ms->l_idx + 1] == ';' || line[ms->l_idx + 1] == '>')
 		;
 	else if (line[ms->l_idx + 1] != '\0')
@@ -54,11 +45,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 		else if (line[ms->l_idx] == '>' || line[ms->l_idx] == '<')
 		{
 			if (redirect_parsing(ms, line) == -1)
-			{
-				ft_putstr_fd("bash: syntax error near unexpected token \'>\'\n", 1);
-				ms->err = 2;
 				break ;
-			}
 		}
 		else if (line[ms->l_idx] != ' ')
 		{
