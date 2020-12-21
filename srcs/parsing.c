@@ -14,7 +14,7 @@ int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
 		{
 			ft_putstr_fd("bash: syntax error near unexpected token \'>\'\n", 1);
 			ms->err = 2;
-			return (-2);
+			return (-1);
 		}
 	}
 	else

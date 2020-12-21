@@ -12,11 +12,15 @@ int		dollor_argcv(t_stock_str *ms, char *line, int i)
 	else if (line[ms->l_idx] == '#')
 	{
 		ms->args[ms->h][ms->w++] = ms->argc + 48 - 1;
+		ms->l_idx++;
 		return (0);
 	}
 	else if (line[ms->l_idx] == '?')
 	{
-		ms->args[ms->h][ms->w++] = ms->err + 48;
+		free(ms->args[ms->h]);
+		ms->args[ms->h] = ft_itoa(ms->err);
+		ms->l_idx++;
+		ms->w = ms->w + ft_strlen(ms->args[ms->h]);
 		return (0);
 	}
 	if (all_argv_parsing(ms, line) == 0)
@@ -35,6 +39,7 @@ int		dollor_parsing2(t_stock_str *ms, char *line, int brace)
 	{
 		if (brace == 1)
 			ms->l_idx++;
+		ms->l_idx--;
 		return (-1);
 	}
 	if (!((line[ms->l_idx] >= 'a' && line[ms->l_idx] <= 'z') ||

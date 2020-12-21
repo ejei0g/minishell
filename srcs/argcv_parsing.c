@@ -9,6 +9,7 @@ void	argv_parsing(t_stock_str *ms, int i)
 		return ;
 	while (ms->argv[i][j])
 		ms->args[ms->h][ms->w++] = ms->argv[i][j++];
+	ms->args[ms->h][ms->w] = '\0';
 	return ;
 }
 
