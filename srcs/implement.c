@@ -9,33 +9,33 @@ void	ft_ms_pwd(void)
 	write(1, "\n", 1);
 }
 
-void	ft_ms_export(t_stock_str ms, t_env_list **env)
+void	ft_ms_export(t_stock_str *ms, t_env_list **env)
 {
-	if (ms.args_cnt == 0)
+	if (ms->args_cnt == 0)
 		export_print(*env);
 	else
 	{
-		if (ms.args[1][0] == '=')
+		if (ms->args[1][0] == '=')
 			err_invalid(ms, 1);
-		export_add(ms, env);
+		export_add(*ms, env);
 		write(1, "\n", 1);
 	}
 	return ;
 }
 
-void	ft_ms_unset(t_stock_str ms, t_env_list **env)
+void	ft_ms_unset(t_stock_str *ms, t_env_list **env)
 {
 	int	i;
 
 	i = 1;
-	while (ms.args[i])
+	while (ms->args[i])
 	{
-		if (ft_strncmp(ms.args[i], "_", ft_strlen(ms.args[i])) == 0)
+		if (ft_strncmp(ms->args[i], "_", ft_strlen(ms->args[i])) == 0)
 			;
-		else if (ft_strchr(ms.args[i], '='))
+		else if (ft_strchr(ms->args[i], '='))
 			err_invalid(ms, i);
 		else
-			delete_node(env, ms.args[i]);
+			delete_node(env, ms->args[i]);
 		i++;
 	}
 	write(1, "\n", 1);

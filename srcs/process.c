@@ -119,8 +119,8 @@ void	ft_ms_execve(t_stock_str *ms, char *file)
 	{
 		waitpid(-1, &status, 0);
 		status = WEXITSTATUS(status); //이쪽 수정해야됨
-		printf("errno = %d\n", status);
-		//ms.err = status;
+		printf("parent errno = %d\n", status);
+		ms->err = status;
 		//printf("parent live?\n");
 	}
 }
@@ -147,7 +147,7 @@ void	ft_ms_else(t_stock_str *ms, t_env_list **env)
 			ft_putstr_fd(ms->args[0], 1);
 			ft_putstr_fd(": command not found\n", 1);
 		}
-		// ms.err = 127;
+		ms->err = 127;
 		return ;
 	}
 }
@@ -165,22 +165,25 @@ void	ft_ms_else(t_stock_str *ms, t_env_list **env)
 
 void	ms_proc(t_stock_str *ms, t_env_list **env)
 {
-	printf("err:%d\n", ms->err);
+	printf("before proc ms->err:%d\n", ms->err);
+	//printf("before proc errno:%d\n", errno);
 	if (is_cmd(ms->args[0], ECHO))
-		ft_ms_echo(*ms);
+		ft_ms_echo(ms);
 	else if (is_cmd(ms->args[0], CD))
-		ft_ms_cd(*ms, env);
+		ft_ms_cd(ms, env);
 	else if (is_cmd(ms->args[0], PWD))
 		ft_ms_pwd();
 	else if (is_cmd(ms->args[0], EXPORT))
-		ft_ms_export(*ms, env);
+		ft_ms_export(ms, env);
 	else if (is_cmd(ms->args[0], UNSET))
-		ft_ms_unset(*ms, env);
+		ft_ms_unset(ms, env);
 	else if (is_cmd(ms->args[0], ENV))
 		ft_ms_env(*env);
 	else if (is_cmd(ms->args[0], EXIT))
 		ft_ms_exit(env);
 	else
 		ft_ms_else(ms, env);
+//	printf("after proc errno:%d\n", errno);
+	printf("after proc ms->err:%d\n", ms->err);
 	return ;
 }
