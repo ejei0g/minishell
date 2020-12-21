@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <signal.h>
 #include <wait.h>
+#include <errno.h>
 #include "get_next_line.h"
 #include "libft.h"
 
@@ -55,6 +56,7 @@ typedef struct	s_stock_str {
 	int		dq_flag; // double quarter
 	int		null_flag;
 	int		fd_flag;
+	int		err;
 }		t_stock_str;
 
 typedef struct	s_env_list
@@ -91,7 +93,7 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head);
 void	dollor_parsing(t_stock_str *ms, char *line, t_env_list *head);
 int		dollor_parsing2(t_stock_str *ms, char *line, int brace);
 int		dollor_argcv(t_stock_str *ms, char *line, int i);
-void	redirect_parsing(t_stock_str *ms, char *line);
+int		redirect_parsing(t_stock_str *ms, char *line);
 
 /* ==================================== *
  *	list_func, export, unset, env	*

@@ -6,7 +6,7 @@ void	rdir_fd_dup(t_stock_str *ms, int rdir_flag)
 
 	fd = 0;
 	if (rdir_flag == 1)
-		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_APPEND);
+		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (rdir_flag == 2)
 		fd = open(ms->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (rdir_flag == 3)
@@ -37,7 +37,7 @@ int		rdir_flag_setting(t_stock_str *ms, char *line)
 	return (0);
 }
 
-void	redirect_parsing(t_stock_str *ms, char *line)
+int		redirect_parsing(t_stock_str *ms, char *line)
 {
 	int		i;
 	int		rdir_flag;
@@ -54,10 +54,11 @@ void	redirect_parsing(t_stock_str *ms, char *line)
 		filename[i++] = line[ms->l_idx++];
 	filename[i] = '\0';
 	ms->file_name = ft_strdup(filename);
-	if (ft_strncmp(ms->args[0], "echo", 4) == 0)
-		return ;
+	if (ms->file_name[0] == '>' || ms->file_name[0] == '<')
+		return (-1);
 	rdir_fd_dup(ms, rdir_flag);
 	if (rdir_flag == 3)
 		ms->l_idx = cp_l_idx;
 	ms->l_idx--;
+	return (0);
 }

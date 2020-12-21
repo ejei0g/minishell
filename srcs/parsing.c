@@ -9,7 +9,14 @@ int		parsing_n_apace(t_stock_str *ms, char *line, t_env_list *head)
 	else if (line[ms->l_idx] == '$')
 		dollor_parsing(ms, line, head);
 	else if (line[ms->l_idx] == '>' || line[ms->l_idx] == '<')
-		redirect_parsing(ms, line);
+	{
+		if (redirect_parsing(ms, line) == -1)
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token \'>\'\n", 1);
+			ms->err = 2;
+			return (-2);
+		}
+	}
 	else
 		ms->args[ms->h][ms->w++] = line[ms->l_idx];
 	return (0);
