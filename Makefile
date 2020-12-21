@@ -6,14 +6,13 @@
 #    By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/15 00:40:27 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/21 21:20:25 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
-#FRAMEWORK	=	-framework OpenGL -framework AppKit
 INCS		=	-I./includes -I./libft/libft
 LIBS		=	-lft -L./libft
 LIBFT		=	./libft
@@ -34,14 +33,13 @@ SRCS		=	./srcs/main.c \
 			./srcs/cd.c\
 			./srcs/export.c\
 			./srcs/exit.c\
+			./srcs/execve.c\
 			./srcs/error.c\
 			./srcs/pipe_proc.c\
 			./srcs/gnl/get_next_line.c	\
 			./srcs/gnl/get_next_line_utils.c
-#SRCS_BONUS	=	./srcs_bonus/main.c
 
 OBJS		=	$(SRCS:%.c=%.o)
-#OBJS_BONUS	=	$(SRCS_BONUS:%.c=%.o)
 
 %.o:		%.c
 	$(CC) $(CFLAGS) -o $@ -c $< $(INCS)

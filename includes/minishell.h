@@ -1,7 +1,6 @@
 #ifndef _MINISHELL_H
 # define _MINISHELL_H
 
-#include <stdio.h>//printf 때문에 지워야함 나중에
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -127,5 +126,6 @@ void	ft_ms_exit(t_env_list **env);
 void	ft_ms_else(t_stock_str *ms, t_env_list **env);
 void	err_invalid(t_stock_str *ms, int i);
 char	*err_path_dir(void);
+int	is_cmd(char *s1, char *s2);
 
 #endif
