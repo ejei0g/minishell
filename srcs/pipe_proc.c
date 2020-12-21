@@ -32,7 +32,7 @@ int	pipe_process(t_stock_str *ms, t_env_list **head, char *line, int pipefd1[2],
 			close(pipefd1[1]);//1
 			dup2(pipefd1[0], STDIN_FILENO);
 			close(pipefd1[0]);//1
-			ms_proc(*ms, head);
+			ms_proc(ms, head);
 
 			return (0);
 		}
@@ -46,7 +46,7 @@ int	pipe_process(t_stock_str *ms, t_env_list **head, char *line, int pipefd1[2],
 		close(pipefd1[0]);//1
 		dup2(pipefd1[1], STDOUT_FILENO);
 		close(pipefd1[1]);//1
-		ms_proc(*ms, head);
+		ms_proc(ms, head);
 	}
 	return (0);
 }
