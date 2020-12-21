@@ -17,6 +17,6 @@ void	ft_ms_echo(t_stock_str *ms)
 		}
 	}
 	ms->err = 0;
-	if (ms->null_flag == -1)
+	if (ms->null_flag == -1 || ms->null_flag == 0)
 		write(1, "\n", 1);
 }
