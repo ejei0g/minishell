@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeylee </var/mail/jaeylee>                +#+  +:+       +#+        */
+/*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:53:57 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/21 17:57:31 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/21 19:52:51 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 		path = ft_strdup(ms->args[1]);
 	if (chdir(path) == 0)
 	{
+		ms->err = 0;
 		free(path);
 		return ;
 	}

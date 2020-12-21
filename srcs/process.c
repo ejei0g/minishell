@@ -170,13 +170,13 @@ void	ms_proc(t_stock_str *ms, t_env_list **env)
 	else if (is_cmd(ms->args[0], CD))
 		ft_ms_cd(ms, env);
 	else if (is_cmd(ms->args[0], PWD))
-		ft_ms_pwd();
+		ft_ms_pwd(ms);
 	else if (is_cmd(ms->args[0], EXPORT))
 		ft_ms_export(ms, env);
 	else if (is_cmd(ms->args[0], UNSET))
 		ft_ms_unset(ms, env);
 	else if (is_cmd(ms->args[0], ENV))
-		ft_ms_env(*env);
+		ft_ms_env(ms, *env);
 	else if (is_cmd(ms->args[0], EXIT))
 		ft_ms_exit(env);
 	else
