@@ -2,7 +2,7 @@
 
 void	ft_ms_pwd(t_stock_str *ms)
 {
-	char pwd_box[PWD_SIZE];
+	char	pwd_box[PWD_SIZE];
 
 	getcwd(pwd_box, PWD_SIZE);
 	ft_putstr_fd(pwd_box, 1);
@@ -47,7 +47,7 @@ void	ft_ms_unset(t_stock_str *ms, t_env_list **env)
 
 void	ft_ms_env(t_stock_str *ms, t_env_list *env)
 {
-	t_env_list *curr;
+	t_env_list	*curr;
 
 	curr = env;
 	while (curr->next)
