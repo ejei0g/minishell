@@ -20,7 +20,7 @@ char	*make_full_path(char const *s1, char const *s2)
 	return (joined_str - jstr_len);
 }
 
-int	is_cmd(char *s1, char *s2)
+int		is_cmd(char *s1, char *s2)
 {
 	int	count;
 
@@ -36,8 +36,8 @@ int	is_cmd(char *s1, char *s2)
 
 void	print_path(t_env_list **env)
 {
-	t_env_list *path;
-	char	**paths;
+	t_env_list	*path;
+	char		**paths;
 
 	path = find_env_key(env, "PATH");
 	printf("%s\n", path->data + 5);
@@ -50,17 +50,15 @@ void	print_path(t_env_list **env)
 		printf("%s%s%s\n", BLUE, paths[i], ORIGIN);
 		i++;
 	}
-	//paths free;
 	free_envp_arr(paths);
 }
 
-//full path malloc
 char	*find_file_name(char *path, char *file_name)
 {
-	DIR		*dp;
+	DIR				*dp;
 	struct dirent	*entry;
-	struct stat	buf;
-	char	*full_path;
+	struct stat		buf;
+	char			*full_path;
 
 	if ((dp = opendir(path)) == NULL)
 		return (err_path_dir());
@@ -86,10 +84,10 @@ char	*find_file_name(char *path, char *file_name)
 
 char	*chk_file_in_path(t_stock_str *ms, t_env_list **env)
 {
-	char	*file;
-	t_env_list *path;
-	char	**paths;
-	int	i;
+	char		*file;
+	t_env_list	*path;
+	char		**paths;
+	int			i;
 
 	i = 0;
 	path = find_env_key(env, "PATH");
@@ -110,7 +108,7 @@ char	*chk_file_in_path(t_stock_str *ms, t_env_list **env)
 void	ft_ms_execve(t_stock_str *ms, char *file)
 {
 	pid_t	pid;
-	int	status;
+	int		status;
 
 	pid = fork();
 	if (pid == 0)
@@ -118,10 +116,9 @@ void	ft_ms_execve(t_stock_str *ms, char *file)
 	else
 	{
 		waitpid(-1, &status, 0);
-		status = WEXITSTATUS(status); //이쪽 수정해야됨
+		status = WEXITSTATUS(status);
 		printf("parent errno = %d\n", status);
 		ms->err = status;
-		//printf("parent live?\n");
 	}
 }
 

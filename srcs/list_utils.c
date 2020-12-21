@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	is_env_key(char *env, char *key)
+int			is_env_key(char *env, char *key)
 {
 	int	count;
 	int	key_cnt;
@@ -10,13 +10,13 @@ int	is_env_key(char *env, char *key)
 	while (env[count])
 	{
 		if (env[count] == '=' || env[count] == ' ')
-			break;
+			break ;
 		count++;
 	}
 	while (key[key_cnt])
 	{
 		if (key[key_cnt] == '=' || key[key_cnt] == ' ')
-			break;
+			break ;
 		key_cnt++;
 	}
 	if (count < key_cnt)
@@ -40,9 +40,9 @@ t_env_list	*find_env_key(t_env_list **head, char *key)
 	return (NULL);
 }
 
-int	lst_size(t_env_list *head)
+int			lst_size(t_env_list *head)
 {
-	int	count;
+	int			count;
 	t_env_list	*curr;
 
 	count = 0;

@@ -13,7 +13,7 @@ t_env_list	*create_node(char *data)
 	return (new_node);
 }
 
-void	add_new_node(t_env_list **head, t_env_list *new_node)
+void		add_new_node(t_env_list **head, t_env_list *new_node)
 {
 	t_env_list	*curr;
 
@@ -31,9 +31,9 @@ void	add_new_node(t_env_list **head, t_env_list *new_node)
 	}
 }
 
-void	delete_node(t_env_list **head, char *s)
+void		delete_node(t_env_list **head, char *s)
 {
-	t_env_list *curr;
+	t_env_list	*curr;
 
 	if ((curr = find_env_key(head, s)) != 0)
 	{
@@ -50,7 +50,7 @@ t_env_list	*init_copy_envp(char **envp)
 {
 	t_env_list	*head;
 	t_env_list	*node;
-	int	i;
+	int			i;
 
 	i = 0;
 	head = (t_env_list *)malloc(sizeof(t_env_list));
@@ -68,7 +68,7 @@ t_env_list	*init_copy_envp(char **envp)
 	return (head);
 }
 
-void	free_env_list(t_env_list **env)
+void		free_env_list(t_env_list **env)
 {
 	t_env_list	*curr;
 	t_env_list	*tmp;

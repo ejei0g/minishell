@@ -29,7 +29,7 @@ void	print_sorting_arr(char **s)
 	i = 0;
 	while (s[i])
 	{
-		if(ft_strncmp(s[i], "_=", 2) != 0)
+		if (ft_strncmp(s[i], "_=", 2) != 0)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			print_env_key(s[i]);
@@ -41,8 +41,8 @@ void	print_sorting_arr(char **s)
 
 void	ft_sort_print(char **s)
 {
-	int	i;
-	int	max_index;
+	int		i;
+	int		max_index;
 	char	*tmp;
 
 	i = 0;
@@ -67,16 +67,14 @@ void	ft_sort_print(char **s)
 void	export_print(t_env_list *head)
 {
 	t_env_list	*curr;
-	int	i;
-	char	**cp_envp;
+	int			i;
+	char		**cp_envp;
 
 	i = 0;
 	curr = head;
-	//alloc;
 	cp_envp = (char **)malloc(sizeof(char *) * (lst_size(head) + 1));
 	if (cp_envp == NULL)
 		return ;
-	//copy;
 	while (curr->next)
 	{
 		curr = curr->next;
@@ -84,16 +82,14 @@ void	export_print(t_env_list *head)
 		i++;
 	}
 	cp_envp[i] = '\0';
-	//sorting and print
 	ft_sort_print(cp_envp);
-	//free;
 	free_envp_arr(cp_envp);
 }
 
 void	export_add(t_stock_str ms, t_env_list **env)
 {
 	t_env_list	*tmp;
-	int	i;
+	int			i;
 
 	i = 1;
 	while (ms.args[i])
