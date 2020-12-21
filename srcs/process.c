@@ -90,7 +90,8 @@ char	*chk_file_in_path(t_stock_str *ms, t_env_list **env)
 	int			i;
 
 	i = 0;
-	path = find_env_key(env, "PATH");
+	if ((path = find_env_key(env, "PATH")) == NULL)
+		return (NULL);
 	paths = ft_split(path->data + 5, ':');
 	while (paths[i])
 	{
