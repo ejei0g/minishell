@@ -66,7 +66,6 @@ int		redirect_parsing(t_stock_str *ms, char *line)
 	while (line[ms->l_idx] != ' ' && line[ms->l_idx] != '\0')
 		filename[i++] = line[ms->l_idx++];
 	filename[i] = '\0';
-	printf("file = %s\n", filename);
 	free(ms->file_name);
 	ms->file_name = ft_strdup(filename);
 	if (ms->file_name[0] == '>' || ms->file_name[0] == '<')
