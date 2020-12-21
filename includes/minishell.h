@@ -119,7 +119,7 @@ int	is_env_key(char *env, char *del);
  * 	process func	*
  * ==================== */
 
-void	ms_proc(t_stock_str ms, t_env_list **env);
+void	ms_proc(t_stock_str *ms, t_env_list **env);
 void	ft_ms_echo(t_stock_str ms);
 void	ft_ms_cd(t_stock_str ms, t_env_list **env);
 void	ft_ms_pwd(void);
@@ -127,6 +127,7 @@ void	ft_ms_export(t_stock_str ms, t_env_list **env);
 void	ft_ms_unset(t_stock_str ms, t_env_list **env);
 void	ft_ms_env(t_env_list *env);
 void	ft_ms_exit(t_env_list **env);
+void	ft_ms_else(t_stock_str *ms, t_env_list **env);
 
 void	err_invalid(t_stock_str ms, int i);
 char	*err_path_dir(void);

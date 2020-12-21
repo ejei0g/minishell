@@ -25,7 +25,7 @@ void	pipe_func(t_stock_str *ms, t_env_list **head)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		ms_proc(*ms, head);
+		ms_proc(ms, head);
 		exit(0);
 	}
 	else
@@ -88,7 +88,7 @@ int	main(int argc, char *argv[], char *envp[])
 				continue ;
 			}
 			if (ms.file_name[0] != '>' && ms.file_name[0] != '<')
-				ms_proc(ms, &head);
+				ms_proc(&ms, &head);
 			dup2(ms.fd_inorg, STDIN_FILENO);
 			args_free(&ms);
 		}

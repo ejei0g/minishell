@@ -84,7 +84,7 @@ char	*find_file_name(char *path, char *file_name)
 	return (0);
 }
 
-char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
+char	*chk_file_in_path(t_stock_str *ms, t_env_list **env)
 {
 	char	*file;
 	t_env_list *path;
@@ -96,7 +96,7 @@ char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
 	paths = ft_split(path->data + 5, ':');
 	while (paths[i])
 	{
-		if ((file = find_file_name(paths[i], ms.args[0])) != NULL)
+		if ((file = find_file_name(paths[i], ms->args[0])) != NULL)
 		{
 			free_envp_arr(paths);
 			return (file);
@@ -107,14 +107,14 @@ char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
 	return (NULL);
 }
 
-void	ft_ms_execve(t_stock_str ms, char *file)
+void	ft_ms_execve(t_stock_str *ms, char *file)
 {
 	pid_t	pid;
 	int	status;
 
 	pid = fork();
 	if (pid == 0)
-		execve(file, ms.args, 0);
+		execve(file, ms->args, 0);
 	else
 	{
 		waitpid(-1, &status, 0);
@@ -125,7 +125,7 @@ void	ft_ms_execve(t_stock_str ms, char *file)
 	}
 }
 
-void	ft_ms_else(t_stock_str ms, t_env_list **env)
+void	ft_ms_else(t_stock_str *ms, t_env_list **env)
 {
 	char	*file;
 
@@ -136,15 +136,15 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
 	}
 	else
 	{
-		if (ms.args[0][0] == '/')
+		if (ms->args[0][0] == '/')
 		{
 			ft_putstr_fd("bash: ", 1);
-			ft_putstr_fd(ms.args[0], 1);
+			ft_putstr_fd(ms->args[0], 1);
 			ft_putstr_fd(": No such file or directory\n", 1);
 		}
 		else
 		{
-			ft_putstr_fd(ms.args[0], 1);
+			ft_putstr_fd(ms->args[0], 1);
 			ft_putstr_fd(": command not found\n", 1);
 		}
 		// ms.err = 127;
@@ -163,21 +163,22 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
  *
  */
 
-void	ms_proc(t_stock_str ms, t_env_list **env)
+void	ms_proc(t_stock_str *ms, t_env_list **env)
 {
-	if (is_cmd(ms.args[0], ECHO))
-		ft_ms_echo(ms);
-	else if (is_cmd(ms.args[0], CD))
-		ft_ms_cd(ms, env);
-	else if (is_cmd(ms.args[0], PWD))
+	printf("err:%d\n", ms->err);
+	if (is_cmd(ms->args[0], ECHO))
+		ft_ms_echo(*ms);
+	else if (is_cmd(ms->args[0], CD))
+		ft_ms_cd(*ms, env);
+	else if (is_cmd(ms->args[0], PWD))
 		ft_ms_pwd();
-	else if (is_cmd(ms.args[0], EXPORT))
-		ft_ms_export(ms, env);
-	else if (is_cmd(ms.args[0], UNSET))
-		ft_ms_unset(ms, env);
-	else if (is_cmd(ms.args[0], ENV))
+	else if (is_cmd(ms->args[0], EXPORT))
+		ft_ms_export(*ms, env);
+	else if (is_cmd(ms->args[0], UNSET))
+		ft_ms_unset(*ms, env);
+	else if (is_cmd(ms->args[0], ENV))
 		ft_ms_env(*env);
-	else if (is_cmd(ms.args[0], EXIT))
+	else if (is_cmd(ms->args[0], EXIT))
 		ft_ms_exit(env);
 	else
 		ft_ms_else(ms, env);
