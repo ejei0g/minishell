@@ -23,4 +23,5 @@ void	args_free(t_stock_str *ms)
 		i++;
 	}
 	free(ms->args);
+	free(ms->file_name);
 }

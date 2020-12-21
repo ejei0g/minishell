@@ -6,35 +6,45 @@
 extern void print_path(t_env_list **env);
 extern int pipe_process(t_stock_str *ms, t_env_list **head, char *line, int p1[2], int p2[2]);
 
-
-int fork_func(int pipefd1[2], int pipefd2[2], t_stock_str *ms, t_env_list **head)
-{
-    pid_t pid = fork();
-
-    if (pid > 0)
-    {
-		sleep(1);
-    }
-    else
-    {
-        close(pipefd2[1]);//2
-        dup2(pipefd2[0], STDIN_FILENO);
-        close(pipefd2[0]);//2
-
-        close(pipefd1[0]);//1
-        dup2(pipefd1[1], STDOUT_FILENO);
-        close(pipefd1[1]);//1
-
-		ms_proc(*ms, head);
-		exit(1);
-    }
-    return (pipefd1[0]);
-}
-
 void	sig_handler(void)
 {
 	ft_putstr_fd("\n", 1);
 	ft_putstr_fd(MINISHELL, 1);
+}
+
+void	pipe_func(t_stock_str *ms, t_env_list **head)
+{
+	int		fd[2];
+	pid_t	pid;
+	int		status;
+
+	pipe(fd);
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		ms_proc(*ms, head);
+		exit(0);
+	}
+	else
+	{
+		waitpid(-1, &status, 0);
+		//status = WEXITSTATUS(status);
+		//ms->err = status;
+		close(fd[1]);
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+	}
+	//printf("a\n");
+}
+void	sig_quit(int nb)
+{
+	(void)nb;
+	if (write(STDOUT_FILENO, " \b\b \b", 5) < 0)
+		return ;
+	return ;
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -44,33 +54,25 @@ int	main(int argc, char *argv[], char *envp[])
 	//int	j;
 	t_env_list	*head;
 	t_stock_str ms;
+	//int			status;
 
 	i = 0;
 	ms.argv = argv;
 	ms.argc = argc;
 	ms.fd_inorg = dup(STDIN_FILENO);
 	ms.fd_outorg = dup(STDOUT_FILENO);
-	printf("argc = %d\n", argc);
 	head = init_copy_envp(envp);
 	ms.last_args = '\0';
 	ms.fd_flag = 0;
+	ms.err = 0;
 
 	print_path(&head);
 	//--signal
 	signal(SIGINT, (void *)sig_handler);
-	//-------------
-	int	pipefd1[2];
-	int	pipefd2[2];
-	int	tmp;
-
-
-	pipe(pipefd1);
-	pipe(pipefd2);
-	tmp = pipefd1[0];
-	printf("init tmp : %d pipefd1[0]: %d\n", tmp, pipefd1[0]);
-
+	signal(SIGQUIT, sig_quit);
 	//-------------
 
+	//-------------
 	ft_putstr_fd(MINISHELL, 1);
 	while ((i = get_next_line(0, &line)) > 0)
 	{
@@ -78,55 +80,16 @@ int	main(int argc, char *argv[], char *envp[])
 		while (line[ms.l_idx] != '\0')
 		{
 			str_init(&ms);
-			if (i == 0)
-			{
-				exit(0);
-				free(line);
-			}
 			parsing(line, &ms, head);
-			printf("p_flag = %d\n", ms.p_flag);
-			//
 			if (ms.p_flag == 1)
 			{
-				if (ms.fd_flag == 0 || ms.fd_flag == 2)
-				{
-					fork_func(pipefd2, pipefd1, &ms, &head);
-					ms.fd_flag = 1;
-				}
-				else
-				{
-					fork_func(pipefd1, pipefd2, &ms, &head);
-					ms.fd_flag = 2;
-				}
+				pipe_func(&ms, &head);
 				args_free(&ms);
 				continue ;
 			}
-			if (ms.fd_flag == 2)
-			{
-				close(pipefd2[0]);//1
-				close(pipefd2[1]);//1
-				close(pipefd1[1]);//2
-				dup2(pipefd1[0], STDIN_FILENO);
-				close(pipefd1[0]);//2
+			if (ms.file_name[0] != '>' && ms.file_name[0] != '<')
 				ms_proc(ms, &head);
-				ms.fd_flag = 0;
-				continue ;
-			}
-			else if (ms.fd_flag == 1)
-			{
-				close(pipefd1[0]);//1
-				close(pipefd1[1]);//1
-				close(pipefd2[1]);//2
-				dup2(pipefd2[0], STDIN_FILENO);
-				close(pipefd2[0]);//2
-				ms_proc(ms, &head);
-				ms.fd_flag = 0;
-				continue ;
-			}
-			//args_free(&ms);
-			//str_init(&ms);
-			//parsing(line, &ms, head);
-			ms_proc(ms, &head);
+			dup2(ms.fd_inorg, STDIN_FILENO);
 			args_free(&ms);
 		}
 		dup2(ms.fd_inorg, STDIN_FILENO);
@@ -134,7 +97,6 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putstr_fd(MINISHELL, 1);
 		free(line);
 	}
-	//ctrl D + exit
 	if (i == 0)
 	{
 		ft_putstr_fd("exit\n", 1);

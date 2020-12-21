@@ -53,7 +53,9 @@ int		redirect_parsing(t_stock_str *ms, char *line)
 	while (line[ms->l_idx] != ' ' && line[ms->l_idx] != '\0')
 		filename[i++] = line[ms->l_idx++];
 	filename[i] = '\0';
+	free(ms->file_name);
 	ms->file_name = ft_strdup(filename);
+	//printf("ms->file_name = %s\n", ms->file_name);
 	if (ms->file_name[0] == '>' || ms->file_name[0] == '<')
 		return (-1);
 	rdir_fd_dup(ms, rdir_flag);

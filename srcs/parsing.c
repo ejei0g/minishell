@@ -73,6 +73,9 @@ int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 	while (i < j + ms->argc)
 		ms->args[i++] = (char *)malloc(sizeof(char) * 1000);
 	i = 0;
+	ms->file_name = (char *)malloc(sizeof(char) * 100);
+	while (i < 100)
+		ms->file_name[i++] = '\0';
 	line_parsing(line, ms, head);
 	ms->args_cnt = ms->h;
 	ms->args[ms->h][ms->w] = '\0';

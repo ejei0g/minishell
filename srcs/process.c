@@ -92,8 +92,7 @@ char	*chk_file_in_path(t_stock_str ms, t_env_list **env)
 	int	i;
 
 	i = 0;
-	if ((path = find_env_key(env, "PATH")) == NULL)
-		return (NULL);
+	path = find_env_key(env, "PATH");
 	paths = ft_split(path->data + 5, ':');
 	while (paths[i])
 	{
@@ -119,7 +118,10 @@ void	ft_ms_execve(t_stock_str ms, char *file)
 	else
 	{
 		waitpid(-1, &status, 0);
-		printf("parent live?\n");
+		status = WEXITSTATUS(status); //이쪽 수정해야됨
+		printf("errno = %d\n", status);
+		//ms.err = status;
+		//printf("parent live?\n");
 	}
 }
 
@@ -145,6 +147,7 @@ void	ft_ms_else(t_stock_str ms, t_env_list **env)
 			ft_putstr_fd(ms.args[0], 1);
 			ft_putstr_fd(": command not found\n", 1);
 		}
+		// ms.err = 127;
 		return ;
 	}
 }
