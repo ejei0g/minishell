@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:28 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/21 21:27:31 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 16:59:02 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	export_print(t_env_list *head)
 		cp_envp[i] = ft_strdup(curr->data);
 		i++;
 	}
-	cp_envp[i] = '\0';
+	cp_envp[i] = NULL;
 	ft_sort_print(cp_envp);
 	free_envp_arr(cp_envp);
 }

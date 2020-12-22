@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/22 17:04:26 by jaeylee           #+#    #+#             */
+/*   Updated: 2020/12/22 17:04:27 by jaeylee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ms_init(t_stock_str *ms, int argc, char *argv[])
@@ -6,7 +18,7 @@ void	ms_init(t_stock_str *ms, int argc, char *argv[])
 	ms->argc = argc;
 	ms->fd_inorg = dup(STDIN_FILENO);
 	ms->fd_outorg = dup(STDOUT_FILENO);
-	ms->last_args = '\0';
+	ms->last_args = NULL;
 	ms->fd_flag = 0;
 	ms->err = 0;
 }

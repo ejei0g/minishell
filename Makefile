@@ -6,13 +6,13 @@
 #    By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/09 18:45:38 by jaeylee           #+#    #+#              #
-#    Updated: 2020/12/21 21:20:25 by jaeylee          ###   ########.fr        #
+#    Updated: 2020/12/22 17:06:19 by jaeylee          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	minishell
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
+CFLAGS		=	-Wall -Wextra -Werror
 INCS		=	-I./includes -I./libft/libft
 LIBS		=	-lft -L./libft
 LIBFT		=	./libft
@@ -59,8 +59,5 @@ fclean:		clean
 	rm -f $(NAME)
 
 re:			fclean all
-
-leaks:
-	valgrind --leak-check=full --show-leak-kinds=all --error-limit=no ./$(NAME)
 
 .PHONY	:	all clean fclean re leaks

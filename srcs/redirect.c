@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/22 17:01:09 by jaeylee           #+#    #+#             */
+/*   Updated: 2020/12/22 17:01:40 by jaeylee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int		rdir_fd_dup(t_stock_str *ms, int rdir_flag)
@@ -34,21 +46,21 @@ int		rdir_flag_setting(t_stock_str *ms, char *line)
 	if (line[ms->l_idx] == '>' && line[ms->l_idx + 1] == '>')
 	{
 		ms->l_idx = ms->l_idx + 2;
-		while(line[ms->l_idx] == ' ')
+		while (line[ms->l_idx] == ' ')
 			ms->l_idx++;
 		return (1);
 	}
 	else if (line[ms->l_idx] == '>')
 	{
 		ms->l_idx = ms->l_idx + 1;
-		while(line[ms->l_idx] == ' ')
+		while (line[ms->l_idx] == ' ')
 			ms->l_idx++;
 		return (2);
 	}
 	else if (line[ms->l_idx] == '<')
 	{
 		ms->l_idx = ms->l_idx + 1;
-		while(line[ms->l_idx] == ' ')
+		while (line[ms->l_idx] == ' ')
 			ms->l_idx++;
 		return (3);
 	}

@@ -1,19 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/12/22 17:03:34 by jaeylee           #+#    #+#             */
+/*   Updated: 2020/12/22 17:03:44 by jaeylee          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void   *ft_memdel(void *ptr)
+void	*ft_memdel(void *ptr)
 {
-   if (ptr)
-   {
-      free(ptr);
-      ptr = NULL;
-   }
-   return (NULL);
+	if (ptr)
+	{
+		free(ptr);
+		ptr = NULL;
+	}
+	return (NULL);
 }
 
-void sig_quit(int i)
+void	sig_quit(int i)
 {
-   char   *nbr;   nbr = ft_itoa(i);
-   ft_memdel(nbr);
+	char	*nbr;
+
+	nbr = ft_itoa(i);
+	ft_memdel(nbr);
 }
 
 void	sig_handler(void)
@@ -45,7 +59,7 @@ void	ms_print(t_stock_str *ms, char *line, t_env_list **head)
 	ft_putstr_fd(MINISHELL, 1);
 }
 
-int	main(int argc, char *argv[], char *envp[])
+int		main(int argc, char *argv[], char *envp[])
 {
 	char		*line;
 	int			i;
