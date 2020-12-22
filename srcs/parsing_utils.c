@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:26 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:04:27 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 17:16:18 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	args_free(t_stock_str *ms)
 
 	i = 0;
 	free(ms->last_args);
-	while (ms->args[i])
+	while (i < 100)
 	{
 		free(ms->args[i]);
 		i++;

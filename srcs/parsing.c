@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:04:46 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 17:15:46 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 
 	i = 0;
 	j = 1 + space_check(line);
-	ms->args = (char **)malloc(sizeof(char *) * (j + 1 + ms->argc));
-	while (i < j + ms->argc)
+	ms->args = (char **)malloc(sizeof(char *) * (100));
+	while (i < 100)
 		ms->args[i++] = (char *)malloc(sizeof(char) * 1000);
 	i = 0;
 	ms->file_name = (char *)malloc(sizeof(char) * 100);

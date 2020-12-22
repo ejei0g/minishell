@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:03:34 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:03:44 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 17:08:34 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int		main(int argc, char *argv[], char *envp[])
 	free(line);
 	if (i == 0)
 	{
+		while(1)
+			;
 		ft_putstr_fd("exit\n", 1);
 		exit(0);
 	}
