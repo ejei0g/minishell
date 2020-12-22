@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:15:46 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 18:36:26 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 	ms->args_cnt = ms->h;
 	ms->args[ms->h][ms->w] = '\0';
 	ms->last_args = ft_strdup(ms->args[ms->h]);
+	free(ms->args[ms->h + 1]);
 	ms->args[ms->h + 1] = NULL;
 	return (0);
 }

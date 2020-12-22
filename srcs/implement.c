@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:38 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/21 21:27:39 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 18:58:46 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	ft_ms_export(t_stock_str *ms, t_env_list **env)
 		if (ms->args[1][0] == '=')
 			err_invalid(ms, 1);
 		export_add(*ms, env);
-		write(1, "\n", 1);
 	}
 	ms->err = 0;
 	return ;
@@ -53,7 +52,6 @@ void	ft_ms_unset(t_stock_str *ms, t_env_list **env)
 		i++;
 	}
 	ms->err = 0;
-	write(1, "\n", 1);
 	return ;
 }
 

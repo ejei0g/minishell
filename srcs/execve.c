@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:26:56 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/21 21:27:01 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 18:43:06 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	ft_ms_execve(t_stock_str *ms, char *file)
 	{
 		waitpid(-1, &status, 0);
 		status = WEXITSTATUS(status);
-		printf("parent errno = %d\n", status);
 		ms->err = status;
 	}
 }

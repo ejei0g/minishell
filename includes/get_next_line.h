@@ -6,7 +6,7 @@
 /*   By: hwyu <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/07 20:20:59 by hwyu              #+#    #+#             */
-/*   Updated: 2020/12/22 16:55:37 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 18:43:24 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #  define BUFFER_SIZE 4096
 # endif
 
-# include <stdio.h>
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>

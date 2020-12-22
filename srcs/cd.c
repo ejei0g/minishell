@@ -6,7 +6,7 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:53:57 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/21 19:52:51 by hwyu             ###   ########.fr       */
+/*   Updated: 2020/12/22 18:52:25 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 		ms->err = 1;
 		return ;
 	}
-	if (ms->args[1][0] == '~')
+	if (ms->args_cnt == 0 || ms->args[1][0] == '~')
 	{
 		home = find_home(env);
-		path = ft_strjoin(home, ms->args[1] + 1);
+		path = ft_strdup(home);
 		free(home);
 	}
 	else
