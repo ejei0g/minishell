@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 16:50:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 18:42:38 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 23:48:39 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 # define UNSET		"unset"
 # define ENV		"env"
 # define EXIT		"exit"
+# define INVALID	"!@?$%^-+={}[],./:"
 
 typedef struct	s_stock_str {
 	char		**args;
@@ -104,7 +105,7 @@ void			add_new_node(t_env_list **head, t_env_list *new_node);
 void			delete_node(t_env_list **head, char *s);
 int				lst_size(t_env_list *head);
 void			free_env_list(t_env_list **env);
-void			export_add(t_stock_str ms, t_env_list **env);
+void			export_add(t_stock_str *ms, t_env_list **env);
 void			export_print(t_env_list *head);
 void			ft_sort_print(char **s);
 void			print_sorting_arr(char **s);
@@ -123,5 +124,7 @@ void			ft_ms_else(t_stock_str *ms, t_env_list **env);
 void			err_invalid(t_stock_str *ms, int i);
 char			*err_path_dir(void);
 int				is_cmd(char *s1, char *s2);
+int				invalid_id(char *s);
+int				chk_invalid(char *s1, char *s2, int len);
 
 #endif

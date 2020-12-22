@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:28 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 16:59:02 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 23:48:05 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,26 +98,26 @@ void	export_print(t_env_list *head)
 	free_envp_arr(cp_envp);
 }
 
-void	export_add(t_stock_str ms, t_env_list **env)
+void	export_add(t_stock_str *ms, t_env_list **env)
 {
 	t_env_list	*tmp;
 	int			i;
 
 	i = 1;
-	while (ms.args[i])
+	while (ms->args[i])
 	{
-		if (ft_strncmp(ms.args[i], "_=", 2) == 0)
+		if (ft_strncmp(ms->args[i], "_=", 2) == 0)
 			;
-		else if (ms.args[i][0] == '=')
-			;
-		else if ((tmp = find_env_key(env, ms.args[i])) != 0)
+		else if (invalid_id(ms->args[i]) != 0)
+			err_invalid(ms, i);
+		else if ((tmp = find_env_key(env, ms->args[i])) != 0)
 		{
 			free(tmp->data);
-			tmp->data = ft_strdup(ms.args[i]);
+			tmp->data = ft_strdup(ms->args[i]);
 		}
 		else
 		{
-			tmp = create_node(ms.args[i]);
+			tmp = create_node(ms->args[i]);
 			add_new_node(env, tmp);
 		}
 		i++;

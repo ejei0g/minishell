@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:38 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 18:58:46 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 23:50:01 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_ms_export(t_stock_str *ms, t_env_list **env)
 	{
 		if (ms->args[1][0] == '=')
 			err_invalid(ms, 1);
-		export_add(*ms, env);
+		export_add(ms, env);
 	}
 	ms->err = 0;
 	return ;
@@ -46,6 +46,8 @@ void	ft_ms_unset(t_stock_str *ms, t_env_list **env)
 		if (ft_strncmp(ms->args[i], "_", ft_strlen(ms->args[i])) == 0)
 			;
 		else if (ft_strchr(ms->args[i], '='))
+			err_invalid(ms, i);
+		else if (invalid_id(ms->args[i]) != 0)
 			err_invalid(ms, i);
 		else
 			delete_node(env, ms->args[i]);
