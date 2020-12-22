@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 18:36:26 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:49:57 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ void	line_parsing(char *line, t_stock_str *ms, t_env_list *head)
 int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 1 + space_check(line);
 	ms->args = (char **)malloc(sizeof(char *) * (100));
 	while (i < 100)
 		ms->args[i++] = (char *)malloc(sizeof(char) * 1000);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flag_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:40 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:04:41 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 22:50:24 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	dq_flag_parsing(t_stock_str *ms, char *line, t_env_list *head)
 	{
 		if (line[ms->l_idx] == '\\')
 		{
+			if (line[ms->l_idx + 1] != '"')
+				ms->args[ms->h][ms->w++] = line[ms->l_idx];
 			ms->l_idx++;
 			ms->args[ms->h][ms->w++] = line[ms->l_idx++];
 		}
