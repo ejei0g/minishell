@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
+/*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:03:34 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 18:39:15 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/22 23:18:24 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,13 @@ void	sig_handler(void)
 void	ms_print(t_stock_str *ms, char *line, t_env_list **head)
 {
 	ms->l_idx = 0;
+	if (line[0] == '|')
+	{
+		ft_putstr_fd("bash: syntax error near unexpected token '|'\n", 1);
+		ms->err = 2;
+		ft_putstr_fd(MINISHELL, 1);
+		return ;
+	}
 	while (line[ms->l_idx] != '\0')
 	{
 		str_init(ms);
@@ -52,10 +59,9 @@ void	ms_print(t_stock_str *ms, char *line, t_env_list **head)
 		if (ms->file_name[0] != '>' && ms->file_name[0] != '<')
 			ms_proc(ms, head);
 		dup2(ms->fd_inorg, STDIN_FILENO);
+		dup2(ms->fd_outorg, STDOUT_FILENO);
 		args_free(ms);
 	}
-	dup2(ms->fd_inorg, STDIN_FILENO);
-	dup2(ms->fd_outorg, STDOUT_FILENO);
 	ft_putstr_fd(MINISHELL, 1);
 }
 
