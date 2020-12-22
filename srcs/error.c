@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:28:33 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 23:53:48 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 00:11:33 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ int	invalid_id(char *s)
 	while (s[i])
 	{
 		if (s[i] == '=')
+		{
+			i++;
 			break;
+		}
 		i++;
 	}
 	if (chk_invalid(s, INVALID, i))

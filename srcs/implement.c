@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:38 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 23:50:01 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 01:02:43 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,7 @@ void	ft_ms_export(t_stock_str *ms, t_env_list **env)
 	if (ms->args_cnt == 0)
 		export_print(*env);
 	else
-	{
-		if (ms->args[1][0] == '=')
-			err_invalid(ms, 1);
 		export_add(ms, env);
-	}
-	ms->err = 0;
 	return ;
 }
 

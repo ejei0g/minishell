@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:27:28 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 23:48:05 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 01:01:11 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void	export_add(t_stock_str *ms, t_env_list **env)
 	{
 		if (ft_strncmp(ms->args[i], "_=", 2) == 0)
 			;
+		else if (ms->args[i][0] == '=')
+			err_invalid(ms, i);
 		else if (invalid_id(ms->args[i]) != 0)
 			err_invalid(ms, i);
 		else if ((tmp = find_env_key(env, ms->args[i])) != 0)

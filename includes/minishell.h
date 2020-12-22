@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 16:50:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 23:48:39 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 00:59:29 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define UNSET		"unset"
 # define ENV		"env"
 # define EXIT		"exit"
-# define INVALID	"!@?$%^-+={}[],./:"
+# define INVALID	"!@?$%^-+{}[],./:"
 
 typedef struct	s_stock_str {
 	char		**args;
