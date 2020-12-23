@@ -6,21 +6,11 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:53:57 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 22:52:47 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 23:25:19 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*find_home(t_env_list **env)
-{
-	t_env_list	*home;
-	char		*home_path;
-
-	home = find_env_key(env, "HOME");
-	home_path = ft_strdup(home->data + 5);
-	return (home_path);
-}
 
 void	cd_error(t_stock_str *ms, char *path)
 {
@@ -54,10 +44,22 @@ void	cd_pwd_proc(t_env_list **env, t_stock_str *ms)
 	ms->err = 0;
 }
 
+char	*find_home(t_env_list **env, t_stock_str *ms)
+{
+	t_env_list	*home;
+	char		*path;
+
+	home = find_env_key(env, "HOME");
+	if (ms->args_cnt == 0)
+		path = ft_strdup(home->data + 5);
+	else
+		path = ft_strjoin(home->data + 5, ms->args[1] + 1);
+	return (path);
+}
+
 void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 {
 	char	*path;
-	char	*home;
 
 	if (ms->args_cnt > 1)
 	{
@@ -66,11 +68,7 @@ void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 		return ;
 	}
 	if (ms->args_cnt == 0 || ms->args[1][0] == '~')
-	{
-		home = find_home(env);
-		path = ft_strdup(home);
-		free(home);
-	}
+		path = find_home(env, ms);
 	else
 		path = ft_strdup(ms->args[1]);
 	if (chdir(path) == 0)
