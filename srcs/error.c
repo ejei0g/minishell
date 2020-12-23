@@ -6,18 +6,13 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 21:28:33 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 00:11:33 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 22:28:47 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// !@?$%^*-+={}[] ., /
-// ~
-// #&
-// ()<>
-
-int	chk_invalid(char *s1, char *s2, int len)
+int		chk_invalid(char *s1, char *s2, int len)
 {
 	int i;
 
@@ -31,7 +26,7 @@ int	chk_invalid(char *s1, char *s2, int len)
 	return (0);
 }
 
-int	invalid_id(char *s)
+int		invalid_id(char *s)
 {
 	int	i;
 
@@ -41,7 +36,7 @@ int	invalid_id(char *s)
 		if (s[i] == '=')
 		{
 			i++;
-			break;
+			break ;
 		}
 		i++;
 	}

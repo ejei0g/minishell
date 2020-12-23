@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 16:50:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 00:59:29 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 22:36:50 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # define ENV		"env"
 # define EXIT		"exit"
 # define INVALID	"!@?$%^-+{}[],./:"
+
+int	g_err_num;
 
 typedef struct	s_stock_str {
 	char		**args;

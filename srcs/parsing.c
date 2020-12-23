@@ -6,7 +6,7 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 22:49:57 by hwyu             ###   ########.fr       */
+/*   Updated: 2020/12/23 23:03:41 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ int		parsing(char *line, t_stock_str *ms, t_env_list *head)
 	ms->last_args = ft_strdup(ms->args[ms->h]);
 	free(ms->args[ms->h + 1]);
 	ms->args[ms->h + 1] = NULL;
+	g_err_num = 0;
 	return (0);
 }

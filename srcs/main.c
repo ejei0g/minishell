@@ -6,13 +6,11 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:03:34 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 22:25:05 by hwyu             ###   ########.fr       */
+/*   Updated: 2020/12/23 23:04:16 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_stock_str	ms;
 
 void	*ft_memdel(void *ptr)
 {
@@ -28,16 +26,16 @@ void	sig_quit(int i)
 {
 	char	*nbr;
 
+	g_err_num = 131;
 	nbr = ft_itoa(i);
 	ft_memdel(nbr);
-	ms.err = 131;
 }
 
 void	sig_handler(void)
 {
 	ft_putstr_fd("\b\b  \n", 1);
 	ft_putstr_fd(MINISHELL, 1);
-	ms.err = 130;
+	g_err_num = 130;
 }
 
 void	ms_print(t_stock_str *ms, char *line, t_env_list **head)
@@ -74,6 +72,7 @@ int		main(int argc, char *argv[], char *envp[])
 	char		*line;
 	int			i;
 	t_env_list	*head;
+	t_stock_str	ms;
 
 	ms_init(&ms, argc, argv);
 	head = init_copy_envp(envp);

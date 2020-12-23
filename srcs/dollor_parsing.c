@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:16 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:04:17 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 23:01:02 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@ int		dollor_argcv(t_stock_str *ms, char *line, int i)
 		while (line[ms->l_idx] >= '0' && line[ms->l_idx] <= '9')
 			i = i * 10 + line[ms->l_idx++] - 48;
 		argv_parsing(ms, i);
-		return (0);
 	}
 	else if (line[ms->l_idx] == '#')
 	{
 		ms->args[ms->h][ms->w++] = ms->argc + 48 - 1;
 		ms->l_idx++;
-		return (0);
 	}
 	else if (line[ms->l_idx] == '?')
 	{
 		free(ms->args[ms->h]);
-		ms->args[ms->h] = ft_itoa(ms->err);
+		if (g_err_num != 0)
+			ms->args[ms->h] = ft_itoa(g_err_num);
+		else
+			ms->args[ms->h] = ft_itoa(ms->err);
 		ms->l_idx++;
 		ms->w = ms->w + ft_strlen(ms->args[ms->h]);
-		return (0);
 	}
-	if (all_argv_parsing(ms, line) == 0)
-		return (0);
-	return (1);
+	else if (all_argv_parsing(ms, line) != 0)
+		return (1);
+	return (0);
 }
 
 int		dollor_parsing2(t_stock_str *ms, char *line, int brace)
