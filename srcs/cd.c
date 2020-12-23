@@ -6,7 +6,7 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 17:53:57 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 18:52:25 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/23 22:52:47 by jaeylee          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,25 @@ void	cd_error(t_stock_str *ms, char *path)
 	free(path);
 }
 
+void	cd_pwd_proc(t_env_list **env, t_stock_str *ms)
+{
+	char		pwd_box[PWD_SIZE];
+	t_env_list	*key;
+	char		*old_pwd;
+	char		*tmp;
+
+	getcwd(pwd_box, PWD_SIZE);
+	key = find_env_key(env, "PWD");
+	old_pwd = key->data;
+	key->data = ft_strjoin("PWD=", pwd_box);
+	key = find_env_key(env, "OLDPWD");
+	tmp = key->data;
+	key->data = ft_strjoin("OLD", old_pwd);
+	free(old_pwd);
+	free(tmp);
+	ms->err = 0;
+}
+
 void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 {
 	char	*path;
@@ -56,7 +75,7 @@ void	ft_ms_cd(t_stock_str *ms, t_env_list **env)
 		path = ft_strdup(ms->args[1]);
 	if (chdir(path) == 0)
 	{
-		ms->err = 0;
+		cd_pwd_proc(env, ms);
 		free(path);
 		return ;
 	}
