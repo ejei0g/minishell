@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:04:26 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/22 17:16:18 by jaeylee          ###   ########.fr       */
+/*   Updated: 2020/12/26 14:24:15 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,15 @@ void	args_free(t_stock_str *ms)
 	}
 	free(ms->args);
 	free(ms->file_name);
+}
+
+void	line_space_check(t_stock_str *ms, char *line)
+{
+	ms->l_idx = 0;
+	while (line[ms->l_idx] == ' ')
+	{
+		if (line[ms->l_idx] == '\0')
+			break ;
+		ms->l_idx++;
+	}
 }

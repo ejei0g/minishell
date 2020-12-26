@@ -6,7 +6,7 @@
 /*   By: jaeylee <jaeylee@student.42seoul.k>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 16:50:45 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 22:36:50 by hwyu             ###   ########.fr       */
+/*   Updated: 2020/12/26 14:23:49 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,6 @@ char			*err_path_dir(void);
 int				is_cmd(char *s1, char *s2);
 int				invalid_id(char *s);
 int				chk_invalid(char *s1, char *s2, int len);
+void			line_space_check(t_stock_str *ms, char *line);
 
 #endif

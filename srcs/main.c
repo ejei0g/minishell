@@ -6,7 +6,7 @@
 /*   By: hwyu <hwyu@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/22 17:03:34 by jaeylee           #+#    #+#             */
-/*   Updated: 2020/12/23 23:04:16 by hwyu             ###   ########.fr       */
+/*   Updated: 2020/12/26 14:19:33 by hwyu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	sig_handler(void)
 
 void	ms_print(t_stock_str *ms, char *line, t_env_list **head)
 {
-	ms->l_idx = 0;
-	if (line[0] == '|')
+	line_space_check(ms, line);
+	if (line[ms->l_idx] == '|')
 	{
 		ft_putstr_fd("bash: syntax error near unexpected token '|'\n", 1);
 		ms->err = 2;
